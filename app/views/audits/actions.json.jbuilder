@@ -1,0 +1,1 @@
+json.array! @actions, :id, :to_s

@@ -1,0 +1,96 @@
+<% title 'Courses' %>
+
+<div class="card">
+
+  <div class="card-header">
+    <h5><strong><%= yield(:title) %></strong></h5>
+  </div>
+
+  <div class="card-body">
+
+    <div class="row">
+      <div class="col-12">
+
+        <div class="pull-left">
+          <%= form_tag(courses_path, method: :get) do %>
+
+              <div class="form-group row">
+                <div class="col-md-12">
+                  <div class="input-group">
+                    <%= text_field_tag :q, params[:q], class: 'form-control' %>
+                    <span class="input-group-btn">
+                    <%= button_tag nil, name: nil, class: 'btn btn-primary' do %>
+                      <i class="fa fa-search"></i> Search
+                    <% end %>
+                  </span>
+                  </div>
+                </div>
+              </div>
+
+          <% end %>
+        </div>
+
+        <div class="pull-right">
+          <% if current_user.has_cached_role?(:workshops_admin) || current_user.has_cached_role?(:admin) %>
+              <%= link_to new_course_path, class: 'btn btn-primary' do %>
+                  <span class="glyphicon glyphicon-plus"></span>
+                  New Course
+              <% end %>
+          <% end %>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <br/>
+
+    <div class="table-responsive">
+      <table class="table table-responsive-sm table-hover mb-0">
+        <thead class="thead-light">
+        <tr>
+          <th>Description</th>
+          <th>Duration</th>
+          <th>Group size</th>
+          <th>User</th>
+          <th>Series</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <%= content_tag_for(:tr, @courses) do |course| %>
+            <td>
+              <div>
+                <%= link_to course.title, course %>
+              </div>
+              <br/>
+              <div class="small text-muted">
+                <%= course.description.truncate(100) %>
+              </div>
+            </td>
+            <td class="text-center"><%= course.duration_in_minutes %></td>
+            <td><%= course.min_group_size %> - <%= course.max_group_size %></td>
+            <td>
+              <div><%= course.taught_by_user.full_name %></div>
+              <div class="small text-muted"><%= course.taught_by_user.email %></div>
+            </td>
+            <td>
+              <%= link_to course.series, series_path(course.series) if course.series %>
+            </td>
+            <td>
+              <% if current_user.has_cached_role?(:admin) || current_user.has_cached_role?(:workshops_admin) %>
+                  <%= crud_links course %>
+              <% end %></td>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <br/>
+
+    <%= paginate @courses %>
+
+  </div>
+</div>

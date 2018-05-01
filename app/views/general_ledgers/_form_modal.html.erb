@@ -1,0 +1,61 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="exampleModalLabel">General Ledger</h5>
+  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<%= form_for(@general_ledger, html: {class: 'form-horizontal general_ledger_modal', role: 'form'}) do |f| %>
+    <div class="modal-body">
+      <% if @general_ledger.errors.any? %>
+          <div class="alert alert-danger alert-dismissable" role="alert">
+            <button type="button" class="close" data-dismiss="alert">
+              <span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4><%= pluralize(@general_ledger.errors.count, 'error') %> prohibited this general_ledger from being
+              saved:</h4>
+
+            <ul>
+              <% @general_ledger.errors.full_messages.each do |msg| %>
+                  <li><%= msg %></li>
+              <% end %>
+            </ul>
+          </div>
+      <% end %>
+
+      <div class="form-group">
+        <%= f.label :transaction_type, class: 'col-sm-12 control-label' %>
+        <div class="col-sm-12">
+          <%= f.select :general_ledger, :transaction_type, TRANSACTION_TYPES.values, class: 'form-control' %>
+        </div>
+      </div>
+
+      <%= f.text_area :description %>
+
+      <div class="form-group">
+        <%= f.label :transaction_date, class: 'col-sm-12 control-label' %>
+        <div class="col-sm-12">
+          <input type="text" class='form-control datepicker' name='general_ledger[transaction_date]'>
+        </div>
+      </div>
+
+      <%= f.number_field :amount %>
+      <%= f.autocomplete :financial_account %>
+      <%= f.autocomplete :ledger_category %>
+      <% if @training_session %>
+        <%= f.autocomplete :training_request %>
+        <%= hidden_field_tag 'general_ledger[training_session_id]', @training_session.id %>
+      <% else %>
+          <%= f.autocomplete :training_session %>
+          <%= hidden_field_tag 'general_ledger[training_request_id]', @training_request.id %>
+      <% end %>
+      <%= hidden_field_tag 'general_ledger_modal', true %>
+    </div>
+
+    <div class="modal-footer">
+      <div class="form-group">
+        <div class="col-sm-12">
+          <%= f.submit class: 'btn btn-primary' %>
+        </div>
+      </div>
+    </div>
+<% end %>

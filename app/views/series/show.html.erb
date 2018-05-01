@@ -1,0 +1,42 @@
+<% title 'Show series' %>
+
+<div class="row">
+  <div class="container-fluid">
+    <div class="pull-right">
+      <%= link_to series_index_path, class: 'btn btn-default' do %>
+          <span class="glyphicon glyphicon-list-alt"></span>
+          Back
+      <% end %>
+      <%= link_to edit_series_path(@series), class: 'btn btn-primary' do %>
+          <span class="glyphicon glyphicon-pencil"></span>
+          Edit
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h5>Name: <strong><%= @series.name %></strong></h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-8">
+            <dt>Description:</dt>
+            <dd><%= @series.description %></dd>
+          </div>
+          <div class="col-md-3 col-md-offset-1">
+            <p class="text-caption">
+              <strong>
+              </strong>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

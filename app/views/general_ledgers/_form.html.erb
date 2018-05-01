@@ -1,0 +1,56 @@
+<div class="panel panel-default">
+  <div class="panel-body">
+    <%= form_for(@general_ledger, html: {class: 'form-horizontal', role: 'form'}) do |f| %>
+        <% if @general_ledger.errors.any? %>
+            <div class="alert alert-danger alert-dismissable" role="alert">
+              <button type="button" class="close" data-dismiss="alert">
+                <span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+              <h4><%= pluralize(@general_ledger.errors.count, 'error') %> prohibited this general_ledger from being
+                saved:</h4>
+
+              <ul>
+                <% @general_ledger.errors.full_messages.each do |msg| %>
+                    <li><%= msg %></li>
+                <% end %>
+              </ul>
+            </div>
+        <% end %>
+
+        <div class="form-group">
+          <%= f.label :transaction_type, class: 'col-sm-2 control-label' %>
+          <div class="col-sm-10">
+            <%= f.select :general_ledger, :transaction_type, TRANSACTION_TYPES, class: 'form-control' %>
+          </div>
+        </div>
+
+
+        <%= f.text_area :description %>
+
+        <div class="form-group">
+          <%= f.label :transaction_date, class: 'col-sm-2 control-label' %>
+          <div class="col-sm-10">
+            <div class="input-group">
+              <div class="input-group-prepend">
+                              <span class="input-group-text">
+                                <i class="fa fa-calendar" , style="background: transparent"></i>
+                              </span>
+              </div>
+              <input type="text" class='datepicker' name='general_ledger[transaction_date]'>
+            </div>
+          </div>
+        </div>
+
+        <%= f.number_field :amount %>
+        <%= f.autocomplete :financial_account %>
+        <%= f.autocomplete :ledger_category %>
+        <%= f.autocomplete :training_request %>
+        <%= f.autocomplete :training_session %>
+
+        <div class="form-group">
+          <div class="col-sm-10">
+            <%= f.submit class: 'btn btn-primary' %>
+          </div>
+        </div>
+    <% end %>
+  </div>
+</div>

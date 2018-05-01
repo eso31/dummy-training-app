@@ -1,0 +1,14 @@
+<% title 'Training requests' %>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h5><strong><%= yield(:title) %></strong></h5>
+      </div>
+      <div class="card-body">
+        <%= render 'training_requests/training_request_table', search_path: training_requests_path %>
+      </div>
+    </div>
+  </div>
+</div>

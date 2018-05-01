@@ -1,0 +1,14 @@
+/*!
+ * Styles for printing
+ */
+.btn, .glyphicon-sort, .dropdown {
+    display:none;
+}
+
+h2{
+    font-size: large;
+}
+
+h3{
+    font-size: medium;
+}

@@ -1,0 +1,83 @@
+<% title 'Session ratings' %>
+
+<div class="card">
+  <div class="card-header">
+    <h5><strong><%= yield(:title) %></strong></h5>
+  </div>
+
+  <div class="card-body">
+
+    <div class="row">
+      <div class="col-12">
+
+        <div class="pull-left">
+          <%= form_tag(session_ratings_path, method: :get) do %>
+
+            <div class="form-group row">
+              <div class="col-md-12">
+                <div class="input-group">
+                  <%= text_field_tag :q, params[:q], class: 'form-control' %>
+                  <span class="input-group-btn">
+                    <%= button_tag nil, name: nil, class: 'btn btn-primary' do %>
+                      <i class="fa fa-search"></i> Search
+                    <% end %>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+          <% end %>
+        </div>
+
+        <div class="pull-right">
+          <% if current_user.has_cached_role?(:workshops_admin) || current_user.has_cached_role?(:admin) %>
+            <%= link_to new_session_rating_path, class: 'btn btn-primary' do %>
+              <span class="glyphicon glyphicon-plus"></span>
+              New Session rating
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-responsive-sm table-hover mb-0">
+        <thead class="thead-light">
+        <tr>
+          <th class="text-center">Rating</th>
+          <th>User</th>
+          <th>Comment</th>
+          <th>User type</th>
+          <th class="text-center">Enrollment</th>
+          <th class="text-center">Actions</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <%= content_tag_for(:tr, @session_ratings) do |session_rating| %>
+          <td class="text-center"><%= session_rating.rating %></td>
+          <td>
+            <div>
+              <%= session_rating.user.full_name %>
+              <div class="small text-muted">
+                <%= session_rating.user.email %>
+              </div>
+            </div>
+          </td>
+          <td><%= session_rating.comment %></td>
+          <td><%= session_rating.user_type.capitalize %></td>
+          <td class="text-center">
+            <%= link_to session_rating.enrollment.training_session.title, training_session_path(session_rating.enrollment.training_session) %>
+          </td>
+          <td class="text-center"><%= crud_links session_rating %></td>
+
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <br/>
+
+    <%= paginate @session_ratings %>
+  </div>
+</div>

@@ -1,0 +1,72 @@
+<% title 'Listing Ledger categories' %>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h5><strong><%= yield(:title) %></strong></h5>
+      </div>
+
+      <div class="card-body">
+
+        <!-- Search -->
+        <div class="row">
+          <div class="col-12">
+
+            <%= form_tag(ledger_categories_path, method: :get, class: 'form-inline pull-left') do %>
+              <div class="form-group row">
+                <div class="col-md-12">
+                  <div class="input-group">
+                    <%= text_field_tag :q, params[:q], class: 'form-control' %>
+                    <span class="input-group-btn">
+                      <%= button_tag nil, name: nil, class: 'btn btn-primary' do %>
+                        <i class="fa fa-search"></i> Search
+                      <% end %>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+
+            <%= link_to new_ledger_category_path, class: 'btn btn-primary  pull-right' do %>
+                <span class="glyphicon glyphicon-plus"></span>
+                New Ledger category
+            <% end %>
+          </div>
+        </div>
+
+        <br/>
+
+        <!-- Data table -->
+        <div class="table-responsive">
+          <table class="table table-responsive-sm table-hover mb-0">
+            <thead class="thead-light">
+            <tr>
+              <th>Name</th>
+              <th class="text-center">Actions</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <%= content_tag_for(:tr, @ledger_categories) do |ledger_category| %>
+              <td>
+                <div>
+                  <%= link_to ledger_category.name, ledger_category %>
+                </div>
+              </td>
+              <td class="text-center">
+                <% if current_user.has_cached_role?(:financial_admin) or current_user.has_cached_role?(:admin) %>
+                    <%= crud_links ledger_category %>
+                <% end %>
+              </td>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+
+    <%= paginate @ledger_categories %>
+  </div>
+</div>

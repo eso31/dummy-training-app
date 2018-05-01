@@ -1,0 +1,32 @@
+<% title 'Editing Class location' %>
+
+<div class="row">
+  <div class="container-fluid">
+    <div class="pull-right">
+      <%= link_to class_locations_path, class: 'btn btn-default' do %>
+        <span class="glyphicon glyphicon-list-alt"></span>
+        Back
+      <% end %>
+      <%= link_to @class_location, class: 'btn btn-primary' do %>
+        <span class="glyphicon glyphicon-info-sign"></span>
+        Show
+      <% end %>
+    </div>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h5><strong><%= yield :title %></strong></h5>
+      </div>
+      <div class="card-body">
+        <%= render 'form' %>
+      </div>
+    </div>
+  </div>
+</div>
+
+

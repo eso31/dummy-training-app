@@ -1,0 +1,33 @@
+<div class="panel panel-default">
+  <div class="panel-body">
+    <%= form_for(@course, html: {role: "form"}) do |f| %>
+        <% if @course.errors.any? %>
+            <div class="alert alert-danger alert-dismissable" role="alert">
+              <button type="button" class="close" data-dismiss="alert">
+                <span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+              <h4><%= pluralize(@course.errors.count, "error") %> prohibited this course from being saved:</h4>
+
+              <ul>
+                <% @course.errors.full_messages.each do |msg| %>
+                    <li><%= msg %></li>
+                <% end %>
+              </ul>
+            </div>
+        <% end %>
+
+        <%= f.text_field     :title %>
+        <%= f.text_area      :description %>
+        <%= f.number_field   :duration_in_minutes %>
+        <%= f.number_field   :min_group_size %>
+        <%= f.number_field   :max_group_size %>
+        <%= f.autocomplete   :taught_by_user %>
+        <%= f.autocomplete   :series %>
+
+        <div class="form-group">
+          <div class=" col-sm-10">
+            <%= f.submit class: "btn btn-primary" %>
+          </div>
+        </div>
+    <% end %>
+  </div>
+</div>

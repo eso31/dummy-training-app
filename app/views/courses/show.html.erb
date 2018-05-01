@@ -1,0 +1,51 @@
+<% title 'Show course' %>
+
+<div class="row">
+  <div class="container-fluid">
+    <div class="pull-right">
+      <%= link_to courses_path, class: 'btn btn-default' do %>
+        <span class="glyphicon glyphicon-list-alt"></span>
+        Back
+      <% end %>
+      <%= link_to edit_course_path(@course), class: 'btn btn-primary' do %>
+        <span class="glyphicon glyphicon-pencil"></span>
+        Edit
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h5>Series: <strong><%= @course.series %></strong></h5>
+        <h4 class="text-headline">
+          <%= @course.title %>
+        </h4>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-8">
+            <dt>Description:</dt>
+            <dd><%= @course.description %></dd>
+          </div>
+          <div class="col-md-3 col-md-offset-1">
+            <p class="text-caption">
+              <strong>
+                <i class="fa fa-clock-o fa-fw"></i> Duration: <%= @course.duration_in_minutes %> min
+                <br/>
+                <i class="fa fa-mortar-board fa-fw"></i> Min. group: <%= @course.min_group_size %>
+                <br/>
+                <i class="fa fa-mortar-board fa-fw"></i> Max. group: <%= @course.max_group_size %>
+                <br/>
+                <i class="fa fa-user fa-fw"></i> By: <%= @course.taught_by_user %>
+              </strong>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

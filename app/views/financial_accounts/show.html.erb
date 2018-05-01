@@ -1,0 +1,90 @@
+
+
+
+<% title 'Show financial account' %>
+
+<div class="row">
+  <div class="container-fluid">
+    <div class="pull-right">
+      <%= link_to financial_accounts_path, class: 'btn btn-default' do %>
+          <span class="glyphicon glyphicon-list-alt"></span>
+          Back
+      <% end %>
+      <%= link_to edit_financial_account_path(@financial_account), class: 'btn btn-primary' do %>
+          <span class="glyphicon glyphicon-pencil"></span>
+          Edit
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h5>Financial Account:</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-8">
+            <dt>Name:</dt>
+            <dd><%= @financial_account.name %></dd>
+          </div>
+          <div class="col-md-3 col-md-offset-1">
+            <p class="text-caption">
+              <strong>
+                <i class="fa fa-clock-o fa-fw"></i> Status: <%= @financial_account.status %>
+                <br/>
+                <i class="fa fa-mortar-board fa-fw"></i> Parent Account: <%= @financial_account.parent_account.nil? ? 'None' : @financial_account.parent_account.name %>
+              </strong>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h5>Monthly Summary:</h5>
+      </div>
+      <div class="card-body">
+        <table class="table table-responsive-sm table-hover table-outline mb-0">
+          <thead class="thead-light">
+          <tr>
+            <th>Month</th>
+            <th>Planned</th>
+            <th>Debit</th>
+            <th>Credit</th>
+            <th>Balance</th>
+          </tr>
+          </thead>
+          <tbody>
+          <% if !@monthly_general_ledgers.nil? %>
+            <% @monthly_general_ledgers.each do |k| %>
+                 <tr>
+
+                   <td><%= k.first %>/<%= Date::MONTHNAMES[k.second] %></td>
+                    <td><%= @financial_account.monthly_general_ledgers(k.first, k.second, "PLANNED").format %></td>
+                    <td><%= @financial_account.monthly_general_ledgers(k.first, k.second, "DEBIT").format %></td>
+                    <td><%= @financial_account.monthly_general_ledgers(k.first, k.second, "CREDIT").format %></td>
+                    <td><%= @financial_account.financial_available(@financial_account.monthly_ledgers(k.first, k.second)).format %></td>
+                 </tr>
+            <% end %>
+            <tr>
+              <td>Total:</td>
+              <td><%= @financial_account.filter_ledgers(@financial_account.general_ledgers, "PLANNED").format %></td>
+              <td><%= @financial_account.filter_ledgers(@financial_account.general_ledgers, "DEBIT").format %></td>
+              <td><%= @financial_account.filter_ledgers(@financial_account.general_ledgers, "CREDIT").format %></td>
+              <td><%= @financial_account.financial_available(@financial_account.general_ledgers).format %></td>
+            </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

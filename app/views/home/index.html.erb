@@ -1,0 +1,8 @@
+
+<% title 'Nearsoft Training App' %>
+
+<% if current_user.has_cached_role?(:training_admin) || current_user.has_cached_role?(:admin) %>
+    <%= render 'home/home_training_requests' %>
+<% else %>
+    <%= render 'home/home_training_sessions' %>
+<% end %>

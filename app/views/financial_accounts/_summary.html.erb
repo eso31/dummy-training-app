@@ -1,0 +1,42 @@
+<div class="tab-pane" id="financial-summary" role="tabpanel" aria-labelledby="voters-tab">
+
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          Financial Summary - Opened Accounts
+        </div>
+        <div class="card-body">
+
+
+          <div class="table-responsive">
+            <table class="table table-responsive-sm table-hover table-outline mb-0">
+              <thead class="thead-light">
+              <tr>
+                <th>Name</th>
+                <th>Debit</th>
+                <th>Planned/Commited</th>
+                <th>Spent</th>
+                <th>Available</th>
+                <th>Available after commitments</th>
+              </tr>
+              </thead>
+
+              <tbody>
+              <%= content_tag_for(:tr, @open_financial_accounts) do |financial_account| %>
+                  <td><%= link_to financial_account.name, financial_account_path(financial_account) %></td>
+                  <td><%= financial_account.filter_ledgers(financial_account.general_ledgers, "DEBIT").format %></td>
+                  <td><%= financial_account.financial_planned(financial_account.general_ledgers).format %></td>
+                  <td><%= financial_account.filter_ledgers(financial_account.general_ledgers, "CREDIT").format %></td>
+                  <td><%= financial_account.financial_available(financial_account.general_ledgers).format %></td>
+                  <td><%= financial_account.financial_avaiblable_after_planned(financial_account.general_ledgers).format %></td>
+              <% end %>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

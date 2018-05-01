@@ -1,0 +1,54 @@
+<% title 'Assignment Queue' %>
+<div class="row">
+  <div class="container-fluid">
+    <div class="pull-right">
+      <%= link_to assignment_queues_path, class: 'btn btn-default' do %>
+          <span class="glyphicon glyphicon-list-alt"></span>
+          Back
+      <% end %>
+      <%= link_to edit_assignment_queue_path(@assignment_queue), class: 'btn btn-primary' do %>
+          <span class="glyphicon glyphicon-pencil"></span>
+          Edit
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="text-headline">
+          Assignment Queue
+        </h4>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-8">
+            <% if @assignment_queue.training_request.blank? %>
+                <%= "Assignment Queue without Training Request:" %></h4>
+            <% else %>
+                <strong>
+                  <%= "Training request: #{@assignment_queue.training_request.name.capitalize}" %></h4>
+                  </strong>
+            <% end %>
+          </div>
+          <div class="col-md-3 col-md-offset-1">
+            <p class="text-caption">
+              <strong>
+                <i class="fa fa-chevron-circle-right fa-fw"></i> Assignment Order: <%= @assignment_queue.assignment_order %> <br>
+                <i class="fa fa-user-circle fa-fw"></i> Lead User: <%= @assignment_queue.user %>
+                <br/>
+                <i class="fa fa-bookmark fa-fw"></i> Status: <%= @assignment_queue.status %>
+              </strong>
+            </p>
+          </div>
+        </div>
+
+        <hr class="margin-none"/>
+
+
+      </div>
+    </div>
+  </div>
+</div>

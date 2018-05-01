@@ -1,0 +1,97 @@
+<% if @training_session %>
+  <% title "Link a general ledger to training session: #{@training_session.title}" %>
+<% elsif @training_request %>
+  <% title "Link a general ledger to training request: #{@training_request.name}" %>
+<% end %>
+
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+
+      <div class="card-header">
+        <h5><strong><%= yield(:title) %></strong></h5>
+      </div>
+
+      <div class="card-body">
+        <div class="row">
+          <div class="col-12">
+
+            <!-- Search form the value search path is seated when the partial is referenced -->
+            <%= form_tag(general_ledgers_path, method: :get, class: 'form-inline pull-left') do %>
+              <div class="form-group row">
+                <div class="col-md-12">
+                  <div class="input-group">
+                    <%= text_field_tag :q, params[:q], class: 'form-control' %>
+                    <span class="input-group-btn">
+                        <%= button_tag nil, name: nil, class: 'btn btn-primary' do %>
+                          <i class="fa fa-search"></i> Search
+                        <% end %>
+                      </span>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+
+            <%= link_to new_general_ledger_path, class: 'btn btn-primary  pull-right' do %>
+              <span class="glyphicon glyphicon-plus"></span>
+              New General ledger
+            <% end %>
+
+          </div>
+        </div>
+
+        <br/>
+
+        <div class="table-responsive">
+          <table class="table table-responsive-sm table-hover table-outline mb-0">
+            <thead class="thead-light">
+            <tr>
+              <th>Description</th>
+              <th>Transaction date</th>
+              <th>Amount</th>
+              <th>Financial account</th>
+              <th>Ledger Category</th>
+              <th>Training request</th>
+              <th>Training session</th>
+              <th class="text-center">Link</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <%= content_tag_for(:tr, @general_ledgers) do |general_ledger| %>
+              <td>
+                <div>
+                  <%= general_ledger.description %>
+                </div>
+                <div class="small text-muted">
+                  <strong>Transaction type: </strong><%= general_ledger.transaction_type %>
+                </div>
+              </td>
+              <td><%= general_ledger.transaction_date.strftime('%B %d, %Y') if general_ledger.transaction_date %></td>
+              <td><%= "#{general_ledger.amount_currency} #{general_ledger.amount_currency.currency}" %></td>
+              <td><%= general_ledger.financial_account %></td>
+              <td><%= general_ledger.ledger_category %></td>
+              <td><%= general_ledger.training_request %></td>
+              <td><%= general_ledger.training_session %></td>
+              <td>
+                <% if @training_session %>
+                  <%= link_to 'Link', link_general_ledger_path(general_ledger, general_ledger: { training_session_id: @training_session.id }), class: 'btn btn-primary', method: :put %>
+                <% elsif @training_request %>
+                  <%= link_to 'Link', link_general_ledger_path(general_ledger, general_ledger: { training_request_id: @training_request.id }), class: 'btn btn-primary', method: :put %>
+                <% end %>
+              </td>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
+
+        <br/>
+
+        <%= paginate @general_ledgers %>
+
+      </div>
+
+    </div>
+  </div>
+</div>

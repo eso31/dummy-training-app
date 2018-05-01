@@ -1,0 +1,49 @@
+<div class="modal fade" id="ratingModal" tabindex="-1" role="dialog" aria-labelledby="ratingModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel"><%= @training_session.title %></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <%= form_with(model: @session_rating, html: {class: "form-horizontal rating_modal", role: "form"}) do |f| %>
+        <% if @session_rating.errors.any? %>
+          <div class="alert alert-danger alert-dismissable" role="alert">
+            <button type="button" class="close" data-dismiss="alert">
+              <span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4><%= pluralize(@session_rating.errors.count, "error") %> prohibited this session_rating from being
+              saved:</h4>
+
+            <ul>
+              <% @session_rating.errors.full_messages.each do |msg| %>
+                  <li><%= msg %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <div class="modal-body">
+          <%= f.number_field :rating, class: "form-control" %>
+          <div class="form-group">
+            <%= f.label "What went Wrong?", class: 'col-sm-12' %>
+            <div class="col-sm-12">
+              <%= select_tag "session_rating[session_rating_reason_ids]", options_from_collection_for_select(RatingReason.all, "id", "description"), multiple: true %>
+            </div>
+          </div>
+          <%= f.text_area :comment, class: "form-control" %>
+          <%= f.hidden_field :enrollment_id, class: "form-control" %>
+          <%= f.hidden_field :user_id, class: "form-control" %>
+        </div>
+
+        <div class="modal-footer">
+            <div class="form-group">
+              <div class="col-sm-offset-12 col-sm-12">
+                <%= f.submit class: "btn btn-primary" %>
+              </div>
+            </div>
+          </div>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,34 @@
+# This is a sample build configuration for Ruby.
+# Check our guides at https://confluence.atlassian.com/x/8r-5Mw for more examples.
+# Only use spaces to indent your .yml configuration.
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+image: ruby:2.4.0
+
+pipelines:
+  default:
+    - step:
+        caches:
+          - bundler
+        script: # Modify the commands below to build your repository.
+          - apt-get update -y
+          - apt-get install -y build-essential git-core curl nodejs libmysqlclient-dev ssh
+          - bundle install --path vendor/bundle
+#           - mv config/secrets.ci.yml config/secrets.yml
+#           - mv config/database.ci.yml config/database.yml
+          - bundle exec rake db:migrate RAILS_ENV=test
+          - bundle exec rspec spec
+        services:
+          - postgres
+          - elasticsearch
+
+definitions:
+  services:
+    postgres:
+      image: postgres
+      environment:
+        POSTGRES_DB: training_test
+    elasticsearch:
+      image: sanne/elasticsearch-light-testing
+  caches:
+    bundler: vendor/bundle

@@ -1,0 +1,31 @@
+<% title 'Editing training_request' %>
+
+<div class="row">
+  <div class="container-fluid">
+    <div class="pull-right">
+      <%= link_to training_requests_path, class: 'btn btn-default' do %>
+          <span class="glyphicon glyphicon-list-alt"></span>
+          Back
+      <% end %>
+      <%= link_to @training_request, class: 'btn btn-primary' do %>
+          <span class="glyphicon glyphicon-info-sign"></span>
+          Show
+      <% end %>
+    </div>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <%=  yield(:title) %>
+      </div>
+      <div class="card-body">
+      <%= render 'form' %>
+      </div>
+
+    </div>
+  </div>
+</div>

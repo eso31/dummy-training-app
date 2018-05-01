@@ -1,0 +1,158 @@
+<% if params[:load_ledger] %>
+    <script>
+      $(window).load(function () {
+        $('#glModal').modal('show');
+      });
+    </script>
+<% end %>
+<% title 'Show training_request' %>
+
+<div class="row">
+  <div class="container-fluid">
+    <div class="pull-right">
+      <%= link_to training_requests_path, class: 'btn btn-default' do %>
+          <span class="glyphicon glyphicon-list-alt"></span>
+          Back
+      <% end %>
+      <% if current_user.has_cached_role?(:admin) || current_user.has_cached_role?(:admin) || @training_request.requested_by_user ==  current_user %>
+        <%= link_to edit_training_request_path(@training_request), class: 'btn btn-primary' do %>
+            <span class="glyphicon glyphicon-pencil"></span>
+            Edit
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h5>Status: <strong><%= @training_request.status.capitalize %></strong></h5>
+        <h4 class="text-headline"><%= @training_request.name %></h4>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-8">
+            <%= @training_request.description %>
+          </div>
+          <div class="col-md-3 col-md-offset-1">
+            <span class="text-caption">
+              <strong>
+                <i class="fa fa-clock-o fa-fw"></i> <%= @training_request.duration_in_minutes %> min &nbsp;
+                <br/>
+                <i class="fa fa-calendar fa-fw"></i> Start: <%= @training_request.start_date %>, End: <%= @training_request.end_date %>
+                <br/>
+                <i class="fa fa-thumb-tack fa-fw"></i>Location: <%= @training_request.location %>
+                <br/>
+                <i class="fa fa-file fa-fw"></i> Reference file: <%= @training_request.reference_file %>
+              </strong>
+            </span>
+            <span class="text-caption">
+              <p><strong><i class="fa fa-check fa-fw"></i> Status: <%= @training_request.status %></strong></p>
+              <ul id="votes-count">
+                <% @training_request.vote_count.each do |type, count| %>
+                    <li>
+                      <%= type %>: <span class="badge badge-secondary"><%= count %></span>
+                    </li>
+                <% end %>
+              </ul>
+            </span>
+          </div>
+        </div>
+
+        <hr class="margin-none"/>
+
+        <div class="row">
+          <div class="col-md-8">
+            <i class="fa fa-user fa-fw"></i> Users:
+          </div>
+          <div class="col-md-3 col-md-offset-1">
+            <i class="fa fa-thumb-tack" aria-hidden="true"></i> Location:
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-8">
+            <p>Requested by: <%= @training_request.requested_by_user %> <br/>
+            Assigned to: <%= @training_request.assigned_to_user %></p>
+          </div>
+          <div class="col-md-3 col-md-offset-1">
+            <strong><%= @training_request.location %></strong>
+          </div>
+        </div>
+
+        <hr>
+
+        <ul class="nav nav-tabs" id="training_request_tabs" role="tablist">
+          <li class="nav-item active">
+            <a class="nav-link active" id="requesters-tab" data-toggle="tab" href="#requesters" role="tab" aria-controls="requesters" aria-selected="true">Requesters</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" id="voters-tab" data-toggle="tab" href="#votes" role="tab" aria-controls="votes" aria-selected="false">Votes</a>
+          </li>
+          <% if current_user.has_cached_role?(:admin) || current_user.has_cached_role?(:financial_admin) || current_user.has_cached_role?(:training_admin) %>
+              <li class="nav-item">
+                <a class="nav-link" id="finance-tab" data-toggle="tab" href="#finance" role="tab" aria-controls="votes" aria-selected="false">Finance</a>
+              </li>
+          <% end %>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <%= render 'training_requests/show_partials/requesters' %>
+          <%= render 'training_requests/show_partials/votes' %>
+          <% if current_user.has_cached_role?(:admin) || current_user.has_cached_role?(:financial_admin) || current_user.has_cached_role?(:training_admin) %>
+            <%= render 'training_requests/show_partials/finance' %>
+          <% end %>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Vote modal -->
+<div class="modal fade" id="voteModal" tabindex="-1" role="dialog" aria-labelledby="voteModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <%= render 'training_request_polls/form_modal' %>
+    </div>
+  </div>
+</div>
+
+<!-- Edit vote modal -->
+<div class="modal fade" id="editVoteModal" tabindex="-1" role="dialog" aria-labelledby="editVoteModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <%= render 'training_request_polls/form_modal' %>
+    </div>
+  </div>
+</div>
+
+<!-- Create general ledger entry modal -->
+<div class="modal fade" id="glModal" tabindex="-1" role="dialog" aria-labelledby="glModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <%= render 'general_ledgers/form_modal' %>
+    </div>
+  </div>
+</div>
+
+<!-- Show vote modal -->
+<div class="modal fade" id="showVoteModal" tabindex="-1" role="dialog" aria-labelledby="showVoteModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <dl class="dl-horizontal">
+          <dt>Vote:</dt>
+          <dd id="training_request_poll_vote_value"></dd>
+
+          <dt>Comment:</dt>
+          <dd id="training_request_poll_comment_value"></dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</div>

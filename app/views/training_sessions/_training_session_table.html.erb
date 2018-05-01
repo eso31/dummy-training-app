@@ -1,0 +1,62 @@
+<div class="table-responsive">
+  <table class="table table-responsive-sm table-hover table-striped mb-0">
+    <thead class="thead-light">
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Start date</th>
+      <th>Class location</th>
+      <% if current_user.has_cached_role?(:workshops_admin) || current_user.has_cached_role?(:admin) %>
+          <th>Status</th>
+          <th>Actions</th>
+      <% end %>
+    </tr>
+    </thead>
+
+    <tbody>
+    <%= content_tag_for(:tr, @training_sessions) do |training_session| %>
+        <td>
+          <div>
+            <%= link_to training_session.title, training_session %>
+          </div>
+          <div class="small text-muted">
+            Type: <strong><%= training_session.session_type %></strong>
+            <% unless training_session.course.blank? %>
+                <br/>
+                Course: <strong><%= training_session.course.title %></strong>
+            <% end %>
+          </div>
+        </td>
+        <td>
+          <div class="small text-muted">
+            <%= truncate training_session.description, length: 400 %>
+          </div>
+        </td>
+        <td>
+          <div>
+            <%= training_session.start_date.strftime("%B %d, %Y") %>
+          </div>
+          <div class="small text-muted">
+            Time:
+            <strong>
+              <%= training_session.start_date.strftime("%l:%M %p") %>
+            </strong>
+          </div>
+        </td>
+        <td>
+          <div><%= training_session.class_location.name %></div>
+          <div class="small text-muted"><%= training_session.class_location.timezone %></div>
+        </td>
+        <% if current_user.has_cached_role?(:workshops_admin) || current_user.has_cached_role?(:admin) %>
+            <td>
+              <%= select_tag 'published', options_for_select( {published: true, unpublished: false }, training_session.published),
+                    data: { ts: training_session.id }, class: 'published-status' %>
+            </td>
+            <td><%= crud_links training_session %></td>
+        <% end %>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+
+<%= paginate @training_sessions %>

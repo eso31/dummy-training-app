@@ -1,0 +1,61 @@
+<% title 'Series' %>
+
+<div class="card">
+
+  <div class="card-header">
+    <h5><strong><%= yield(:title) %></strong></h5>
+  </div>
+
+  <div class="card-body">
+
+    <div class="row">
+      <div class="col-12">
+
+        <div class="pull-right">
+          <% if current_user.has_cached_role?(:admin) || current_user.has_cached_role?(:workshops_admin) %>
+              <%= link_to new_series_path, class: 'btn btn-primary' do %>
+                  <span class="glyphicon glyphicon-plus"></span>
+                  New Series
+              <% end %>
+          <% end %>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <br/>
+
+    <div class="table-responsive">
+      <table class="table table-responsive-sm table-hover mb-0">
+        <thead class="thead-light">
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <%= content_tag_for(:tr, @series) do |series| %>
+            <td>
+              <%= link_to series.name, series %>
+            </td>
+            <td><%= series.description %>
+            </td>
+            <td>
+              <% if current_user.has_cached_role?(:admin) || current_user.has_cached_role?(:workshops_admin) %>
+                  <%= crud_links series %>
+              <% end %></td>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <br/>
+
+    <%= paginate @series %>
+
+  </div>
+</div>

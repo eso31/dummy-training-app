@@ -1,0 +1,76 @@
+<div class="panel panel-default">
+  <div class="panel-body">
+
+    <%= form_for(@training_session, html: {class: "form-horizontal", role: "form"}) do |f| %>
+        <% if @training_session.errors.any? %>
+            <div class="alert alert-danger alert-dismissable" role="alert">
+              <button type="button" class="close" data-dismiss="alert">
+                <span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+              <h4><%= pluralize(@training_session.errors.count, "error") %> prohibited this training_session from being
+                saved:</h4>
+
+              <ul>
+                <% @training_session.errors.full_messages.each do |msg| %>
+                    <li><%= msg %></li>
+                <% end %>
+              </ul>
+            </div>
+        <% end %>
+
+      <%= f.text_field :title, { label_classes: 'col-sm-12 required-field' } %>
+      <%= f.text_area :description, { label_classes: 'col-sm-12 required-field' } %>
+
+        <div class="row">
+          <div class="col-md-6">
+            <%= f.number_field :min_group_size %>
+          </div>
+          <div class="col-md-6">
+            <%= f.number_field :max_group_size %>
+          </div>
+        </div>
+
+
+
+
+        <div class="form-group">
+          <div class="row">
+            <div class="col-md-6">
+
+              <%=f.datetimepicker :start_date, :value => "#{@training_session.start_date} #{@training_session.start_time}" %>
+
+
+            </div>
+          <div class="col-md-6">
+                <%= f.text_field :url, class: "form-control" %>
+          </div>
+          </div>
+        </div>
+        <%= f.number_field :duration_in_minutes %>
+        <div class="row">
+          <div class="col-md-6">
+            <%= f.number_field :compensation %>
+          </div>
+          <div class="col-md-6">
+            <%= f.check_box :compensation_delivered %>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :session_type, class: 'col-sm-12 control-label' %>
+          <div class="col-sm-12">
+            <%= f.select :training_session, :session_type, TRAINING_SESSION_TYPES, class: 'form-control' %>
+          </div>
+        </div>
+        <%= f.autocomplete :class_location, { label_classes: 'col-sm-12 required-field' } %>
+        <%= f.autocomplete :course %>
+        <%= f.autocomplete :instructors %>
+
+
+        <div class="form-group">
+          <div class="col-sm-10">
+            <%= f.submit class: 'btn btn-primary' %>
+          </div>
+        </div>
+    <% end %>
+  </div>
+</div>

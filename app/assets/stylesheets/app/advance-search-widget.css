@@ -1,0 +1,8 @@
+.advance-search-widget {
+    display: none;
+}
+
+.search-active.dropdown-toggle::after{
+    border-top: 0;
+    border-bottom: 0.3em solid;
+}

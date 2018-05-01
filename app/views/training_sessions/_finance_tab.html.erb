@@ -1,0 +1,78 @@
+<div class="tab-pane" id="finance" role="tabpanel" aria-labelledby="finance-tab-tab">
+  <% if current_user.has_cached_role?(:financial_admin) || current_user.has_cached_role?(:admin) || current_user.has_cached_role?(:workshops_admin) %>
+      <button class="btn btn-primary dropdown-toggle" type="button" id="generalLedgersDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Add a general ledger entry
+      </button>
+  <% end %>
+
+  <!-- Dropdown menu for the general ledger entries -->
+  <div class="dropdown-menu" aria-labelledby="generalLedgersDropdown">
+    <a href="#" class="dropdown-item" data-toggle="modal" data-target="#glModal">Add a new entry</a>
+    <%= link_to training_session_general_ledgers_link_path(@training_session), class: 'dropdown-item' do %>
+        Link existing entry
+    <% end %>
+  </div>
+
+  <div class="table-responsive">
+    </br>
+    <table class="table table-striped table-bordered table-hover">
+      <tr>
+        <th>Description</th>
+        <th>Transaction date</th>
+        <th>Amount</th>
+        <th>Account</th>
+        <th>Category</th>
+        <th class="text-center">Actions</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <%= content_tag_for(:tr, @training_session.general_ledgers) do |general_ledger| %>
+          <td>
+            <div>
+              <%= general_ledger.description %>
+            </div>
+            <div class="small text-muted">
+              <strong>Transaction type: </strong><%= general_ledger.transaction_type %>
+            </div>
+          </td>
+          <td><%= general_ledger.transaction_date.strftime('%B %d, %Y') %></td>
+          <td><%= "#{general_ledger.amount_currency.format} #{general_ledger.amount_currency.currency}" %></td>
+          <td><%= general_ledger.financial_account.name %></td>
+          <td><%= general_ledger.ledger_category.name %></td>
+          <td> <%= crud_links general_ledger %></td>
+      <% end %>
+
+      <tr>
+        <td colspan="2"><strong>Total Planned</strong></td>
+        <td>
+          <strong><%= "#{@training_session.total_planned.format} #{@training_session.total_planned.currency}" %></strong>
+        </td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+
+      <tr>
+        <td colspan="2"><strong>Total Debit</strong></td>
+        <td><strong><%= "#{@training_session.total_debit.format} #{@training_session.total_debit.currency}" %></strong>
+        </td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+
+      <tr>
+        <td colspan="2"><strong>Total Credit</strong></td>
+        <td>
+          <strong><%= "#{@training_session.total_credit.format} #{@training_session.total_credit.currency}" %></strong>
+        </td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+
+      </tbody>
+    </table>
+  </div>
+</div>

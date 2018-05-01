@@ -1,0 +1,35 @@
+<div class="page-header">
+  <%= link_to new_training_request_poll_path, class: 'btn btn-primary' do %>
+      <span class="glyphicon glyphicon-plus"></span>
+      New Training request poll
+  <% end %>
+  <h1>Listing training_request_polls</h1>
+</div>
+
+<div class="panel panel-default">
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered table-hover">
+      <thead>
+      <tr>
+        <th>Vote</th>
+        <th>Comment</th>
+        <th>Training request</th>
+        <th>User</th>
+        <th></th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <%= content_tag_for(:tr, @training_request_polls) do |training_request_poll| %>
+          <td><%= training_request_poll.vote %></td>
+          <td><%= training_request_poll.comment %></td>
+          <td><%= training_request_poll.training_request %></td>
+          <td><%= training_request_poll.user %></td>
+          <td><%= crud_links training_request_poll %></td>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+<%= paginate @training_request_polls %>

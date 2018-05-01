@@ -1,0 +1,13 @@
+//= require rails-ujs
+//= require turbolinks
+//= require jquery
+//= require select2
+//= require js-routes
+//= require popper
+//= require bootstrap
+//= require bootstrap-datepicker/core
+//= require bootstrap-datepicker/locales/bootstrap-datepicker.es.js
+//= require bootstrap-datepicker/locales/bootstrap-datepicker.fr.js
+//= require vendor/core/breakpoints.js
+//= require vendor/core/jquery.nicescroll.js
+//= require vendor/core/modernizr.js

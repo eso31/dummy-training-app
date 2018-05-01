@@ -1,0 +1,76 @@
+<% title 'General Ledger' %>
+
+<div class="row">
+  <div class="container-fluid">
+    <div class="pull-right">
+      <%= link_to training_sessions_path, class: 'btn btn-default' do %>
+          <span class="glyphicon glyphicon-list-alt"></span>
+          Back
+      <% end %>
+      <%= link_to edit_general_ledger_path(@general_ledger), class: 'btn btn-primary' do %>
+          <span class="glyphicon glyphicon-pencil"></span>
+          Edit
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h5>Type: <strong><%= @general_ledger.transaction_type.capitalize %></strong></h5>
+        <h4 class="text-headline"><%= @general_ledger.description %></h4>
+      </div>
+
+      <div class="card-body">
+
+        <div class="row">
+          <div class="col-8">
+            <%= @general_ledger.description %>
+          </div>
+
+          <div class="col-3 col-offset-1">
+            <span class="text-caption">
+              <strong>
+                <i class="fa fa-credit-card fa-fw"></i> Transaction type: <%= @general_ledger.transaction_type %>
+                <br/>
+                <i class="fa fa-calendar fa-fw"></i> Transaction date: <%= @general_ledger.transaction_date %>
+                <br/>
+                <i class="fa fa-money fa-fw"></i> Amount: <%= @general_ledger.amount_currency %> <%= @general_ledger.amount_currency.currency %>
+                <br/>
+                <i class="fa fa-address-book fa-fw"></i> Financial account: <%= @general_ledger.financial_account %>
+                <br/>
+                <i class="fa fa-pencil-square-o fa-fw"></i> Ledger category: <%= @general_ledger.financial_account %>
+              </strong>
+            </span>
+          </div>
+        </div>
+
+        <hr class="margin-none"/>
+
+        <div class="row">
+          <div class="col-8">
+            <i class="fa fa-user fa-fw"></i> Training Request:
+          </div>
+          <div class="col-3 col-offset-1">
+            <i class="fa fa-user fa-fw"></i> Training session:
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-8">
+            <%= link_to @general_ledger.training_request do %>
+              <%= @general_ledger.training_request %>
+            <% end %>
+          </div>
+          <div class="col-3 col-offset-1">
+            <%= link_to @general_ledger.training_session do %>
+                <%= @general_ledger.training_session %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

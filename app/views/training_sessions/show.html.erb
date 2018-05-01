@@ -1,0 +1,160 @@
+<% if params[:load_ledger] %>
+    <script>
+      $(window).load(function () {
+        $('#glModal').modal('show');
+      });
+    </script>
+<% end %>
+<% title 'Training Session' %>
+<div class="row">
+  <div class="container-fluid">
+    <div class="pull-right">
+      <%= link_to training_sessions_path, class: 'btn btn-default' do %>
+        <span class="glyphicon glyphicon-list-alt"></span>
+        Back
+      <% end %>
+      <% if current_user.has_cached_role?(:admin) || current_user.has_cached_role?(:workshops_admin) %>
+        <%= link_to edit_training_session_path(@training_session), class: 'btn btn-primary' do %>
+          <span class="glyphicon glyphicon-pencil"></span>
+          Edit
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="pull-left">
+          <h5>Type: <strong><%= @training_session.session_type.capitalize %></strong></h5>
+          <h4 class="text-headline"><%= @training_session.title %></h4>
+        </div>
+        <% if current_user.has_cached_role?(:admin) || current_user.has_cached_role?(:workshops_admin) %>
+        <div class="admin-actions pull-right">
+          <button id="print-button" class="btn btn-primary"> <i class="fa fa-print"></i> Print</button>
+        </div>
+        <% end %>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-8">
+            <%= @training_session.description %>
+          </div>
+          <div class="col-md-3 col-md-offset-1">
+            <p class="text-caption">
+              <strong>
+                <i class="fa fa-calendar fa-fw"></i> <%= @training_session.start_date %>
+                <i class="fa fa-clock-o fa-fw"></i> <%= @training_session.start_time %>
+                <br/>
+                <i class="fa fa-hourglass-2 fa-fw"></i> <%= @training_session.duration_in_minutes %> min &nbsp;
+                <br />
+                <i class="fa fa-mortar-board fa-fw"></i> Min. group: <%= @training_session.min_group_size %>
+                <br/>
+                <i class="fa fa-mortar-board fa-fw"></i> Max. group: <%= @training_session.max_group_size %>
+                <br/>
+                <i class="fa fa-check fa-fw"></i> Attendance: <%= @training_session.attendance %>
+                <br/>
+                <i class="fa fa-book" aria-hidden="true"></i> Course: <%= @training_session.course.title if @training_session.course.present? %>
+                <br/>
+                <i class="fa fa-link" aria-hidden="true"></i> URL: <%= @training_session.url if @training_session.url.present? %>
+                <br/>
+                <i class="fa fa-usd" aria-hidden="true"></i> Compensation(USD): <%= @training_session.compensation %> &nbsp;
+                Delivered:  <% if @training_session.compensation_delivered %>
+                              <i class="fa fa-check" aria-hidden="true"></i>
+                            <% else %>
+                              <i class="fa fa-times" aria-hidden="true"></i>
+                            <% end %>
+              </strong>
+            </p>
+          </div>
+        </div>
+
+        <hr class="margin-none"/>
+
+        <div class="row">
+          <div class="col-md-8">
+            <i class="fa fa-user fa-fw"></i> Instructors:
+          </div>
+          <div class="col-md-3 col-md-offset-1">
+            <i class="fa fa-thumb-tack" aria-hidden="true"></i> Location:
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-8">
+            <%= content_tag_for(:span, @training_session.instructors, class: 'label bg-gray-dark') do |instructor| %>
+              <%= instructor %>
+            <% end %>
+          </div>
+          <div class="col-md-3 col-md-offset-1">
+            <p>
+              <strong><%= @training_session.class_location.name %></strong>, <%= @training_session.class_location.timezone %>
+            </p>
+          </div>
+        </div>
+
+        <hr>
+        <div class="admin-actions pull-right">
+          <% if @training_session.enrolled_and_attended_user?(current_user) %>
+            <%= link_to training_sessions_path do %>
+                  <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#ratingModal">
+                    <span class="glyphicon glyphicon-list-alt fa fa-check"></span>
+                    Rate Session
+                  </a>
+            <% end %>
+          <% end %>
+        </div>
+
+        <ul class="nav nav-tabs" id="training_session_tabs" role="tablist">
+
+          <li class="nav-item active">
+            <a class="nav-link active" id="enrollments-tab" data-toggle="tab" href="#enrollments" role="tab" aria-controls="enrollments" aria-selected="true">
+              <%= @training_session.full? ? 'Enrollments (Full)' : 'Enrollments' %>
+            </a>
+          </li>
+
+          <%# if !@user_enrollment.blank? || current_user.has_cached_role?(:admin) || current_user.has_cached_role?(:workshops_admin) || current_user.has_cached_role?(:training_admin) %>
+            <li class="nav-item">
+              <a class="nav-link" id="grading-tab" data-toggle="tab" href="#grading" role="tab" aria-controls="grading" aria-selected="false">Grading</a>
+            </li>
+          <%# end %>
+
+          <% if current_user.has_cached_role?(:financial_admin) || current_user.has_cached_role?(:admin) || current_user.has_cached_role?(:workshops_admin) %>
+              <li class="nav-item">
+                <a class="nav-link" id="finance-tab" data-toggle="tab" href="#finance" role="tab" aria-controls="finance" aria-selected="false">Finance</a>
+              </li>
+          <% end %>
+
+        </ul>
+
+        <div class="tab-content">
+          
+          <%= render 'enrollments_tab' %>
+
+          <%= render 'grading_tab' %>
+
+          <% if current_user.has_cached_role?(:financial_admin) || current_user.has_cached_role?(:admin) || current_user.has_cached_role?(:workshops_admin) %>
+            <%= render 'finance_tab' %>
+          <% end %>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Create general ledger entry modal -->
+<div class="modal fade" id="glModal" tabindex="-1" role="dialog" aria-labelledby="glModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <%= render 'general_ledgers/form_modal' %>
+    </div>
+  </div>
+</div>
+
+<!-- Link an existing general ledger entry modal -->
+
+<%= render 'session_ratings/form_modal' %>

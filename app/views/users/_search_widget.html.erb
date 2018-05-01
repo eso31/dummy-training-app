@@ -1,0 +1,97 @@
+<!-- This is the content of the widget -->
+<div class="row">
+  <div class="col-12">
+
+    <div class="pull-left">
+      <%= form_tag(users_path, method: :get, class: 'form-inline') do %>
+
+        <div class="form-group row">
+          <div class="col-md-12">
+            <div class="input-group">
+              <%= text_field_tag :q, nil, class: 'form-control' %>
+              <span class="input-group-btn">
+              <%= button_tag nil, name: nil, class: 'btn btn-primary' do %>
+                <i class="fa fa-search"></i> Search
+              <% end %>
+                <button class="btn btn-primary dropdown-toggle dropdown-toggle-split search-launcher" type="button" id="advanced" data-toggle="collapse" data-target="#user-search" aria-expanded="false" aria-controls="user-search">
+                <span class="caret"></span>
+                </button>
+            </span>
+            </div>
+          </div>
+        </div>
+
+      <% end %>
+
+      <br/>
+
+      <div class="card advance-search-widget" id="user-search" data-active="false">
+        <div class="card-header">
+          Advanced Search
+        </div>
+
+        <div class="card-body">
+          <%= form_for(:q, action: users_path, method: 'get', builder: ActionView::Helpers::FormBuilder) do |f| %>
+
+            <div class="form-group">
+              <div class="input-group">
+                <span class="input-group-text"><i class="fa fa-user"></i></span>
+                <%= f.text_field :first_name, class: 'form-control', placeholder: 'First name' %>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="input-group">
+                <span class="input-group-text"><i class="fa fa-user"></i></span>
+                <%= f.text_field :last_name, class: 'form-control', placeholder: 'Last name' %>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="input-group">
+                <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                <%= f.text_field :email, class: 'form-control', placeholder: 'Email' %>
+              </div>
+            </div>
+
+            <div class="row">
+
+              <div class="form-group col-6">
+                <label for="q_created_at[start_date]">Created At</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                  <%= f.text_field 'created_at[start_date]', class: 'form-control datepicker', placeholder: 'Start Date' %>
+                </div>
+              </div>
+
+              <div class="form-group col-6">
+                <label for="q_created_at[end_date]">&nbsp;</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                  <%= f.text_field 'created_at[end_date]', class: 'form-control datepicker', placeholder: 'End Date' %>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group form-actions text-right" style="margin: 0">
+              <%= f.button 'Search', name: 'search_widget', class: 'btn btn-primary', type: :submit do %>
+                <i class="fa fa-search"></i> Search
+              <% end %>
+            </div>
+
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="pull-right">
+      <%= link_to new_user_path, class: 'btn btn-primary' do %>
+        <span class="fa fa-plus"></span>
+        New User
+      <% end %>
+    </div>
+
+  </div>
+</div>
+
+

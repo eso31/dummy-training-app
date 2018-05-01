@@ -1,0 +1,125 @@
+= Training App
+
+Training is the app that Nearsoft will use to keep track of training content.
+This includes workshops, attendance, courses, clases and whatever you would
+expect of a CMS handling student-teacher interactions/enrollment.
+
+== Tech docs
+
+=== Dependencies
+
+* *Ruby version:* 2.5.0
+* *Rails version:* 5.1.x
+* *PostgreSQL version:* 10.2
+* *Elasticsearch version:* 6.2.1
+
+=== Bare-bone install (Native)
+
+If you want the app to run faster, tests to run quicker, interact with the app
+without tapping containers or if you just don't like Docker.
+
+. Clone the repository and install the dependencies. If you don't have
+  permission, ask someone from the repo/training LTs.
+
+  $ git clone git@bitbucket.org:nearsoftlabs/training-app.git
+
+. *Ruby.*
+
+.. For https://github.com/rbenv/rbenv[rbenv].
+
+  $ rbenv rehash
+  $ rbenv install
+  $ gem install bundler
+  $ bundle install
+
+.. For https://rvm.io/[RVM].
+
+  $ rvm install 2.5.0
+  $ gem install bundler
+  $ bundle install
+
+. *Database.* PostgreSQL. Is there any other DBMS?
+
+  $ brew install postgresql
+  $ pg_ctl -D /usr/local/var/postgres -l logfile start
+  $ createuser -s training_app
+
+. *Environment.*
+
+.. A Rake task should take care of setting up everything for the
+  first time. *This is not yet in the repo.*
+
+  $ rake setup:dev
+
+.. Run the tests with RSpec
+
+  $ rspec
+
+
+*Not yet in the repo*
+Once you're all set, you can quickly reset the whole environment by running
+`rake setup:bounce`. This will delete all generated files and fully reset the
+database, leaving the environment clean and ready for action.
+
+=== Docker install
+
+This only works partially. For now. This docs are outdated and shouldn't be
+trusted without further experimentation.
+
+Please update this docs if you do.
+
+. Add the postgres host alias to localhost
+
+  $ sudo echo "127.0.0.1 postgres" >> /etc/hosts
+
+. Build containers
+
+  $ docker-compose build
+
+. Start everything up
+
+  $ docker-compose up
+
+. Create database
+
+  $ docker-compose exec training-app rake db:create
+
+. Migrate and seed
+
+  $ docker-compose exec training-app rake db:migrate db:seed
+
+. This command only works the first time, for future migrations just run:
+
+  $ docker-compose exec training-app rake db:migrate
+
+. Create test database and migrate
+
+  $ docker-compose -f docker-compose-test.yml run spec rake db:create db:migrate
+
+. Tests
+
+  $ docker-compose -f docker-compose-test.yml run spec rspec
+
+=== Branching
+
+Working off of `master` for now. Standard `master`, `stable`, `experiment`,
+`dev` workflow will most likely be used, until this thing grows enough to use
+Gitflow.
+
+=== Deploying
+
+Capistrano, probably. Mina, maybe?
+
+== Workflow
+
+NOTE: TBD.
+
+// . Pick a story in the Selected for Development column.
+// . Branch from master, with the format: `<story number>-<short_description>`.
+// . Punch it in the face.
+// . Write it's corresponding tests, functional or integration.
+// . 100% coverage is a must. Check the coverage report in `/coverage`.
+// . 100% pass is a must.
+// . Open a pull request for your branch.
+// . Go back to step 3 if things go wrong.
+// . Once it's accepted, merge into master. Make to sure to be rebase beforehand.

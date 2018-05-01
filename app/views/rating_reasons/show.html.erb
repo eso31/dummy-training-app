@@ -1,0 +1,44 @@
+<%= title 'Rating Reason' %>
+
+<div class="row">
+  <div class="container-fluid">
+    <div class="pull-right">
+      <%= link_to rating_reasons_path, class: 'btn btn-default' do %>
+        <span class="glyphicon glyphicon-list-alt"></span>
+        Back
+      <% end %>
+      <%= link_to edit_rating_reason_path(@rating_reason), class: 'btn btn-primary' do %>
+        <span class="glyphicon glyphicon-pencil"></span>
+        Edit
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <div class="pull-left">
+          <h5>Type: <strong><%= @rating_reason.rating_type.capitalize %></strong></h5>
+          <h4 class="text-headline"><%= @rating_reason.description %></h4>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-8">
+
+            <dl class="dl-horizontal">
+              <dt>Description:</dt>
+              <dd><%= @rating_reason.description %></dd>
+
+              <dt>Rating type:</dt>
+              <dd><%= @rating_reason.rating_type %></dd>
+
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

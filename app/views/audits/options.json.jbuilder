@@ -1,0 +1,1 @@
+json.array! @options, :id, :to_s

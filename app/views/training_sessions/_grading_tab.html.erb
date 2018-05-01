@@ -1,0 +1,43 @@
+<div class="tab-pane" id="grading" role="tabpanel" aria-labelledby="grading-tab-tab">
+  <div class="tab-responsive">
+    <% if current_user.has_cached_role?(:workshops_admin) || current_user.has_cached_role?(:training_admin) %>
+
+      <p>
+        you are an Admin
+      </p>
+
+      <p>
+        <select>
+          <option value="file">Examen en la pagina</option>
+          <option value="test">Test de codigo</option>
+          <option value="both">Why no both?</option>
+        </select>
+      </p>
+
+      <input type="file" name="fileToUpload" id="fileToUpload">
+      <input type="submit" value="Upload reference" name="submit">
+
+  <% else current_user.has_cached_role?(:user) %>
+      <p>
+        you are a user
+      </p>
+      <!--<p>
+        <form >
+          <button type="submit">Download Template</button>
+        </form>
+      </p>
+
+      <input type="file" name="fileToUpload" id="fileToUpload">
+      <input type="submit" value="Upload file" name="submit">-->
+
+      <%= form_tag({:action => 'grade_my_code', :controller => 'grading'}, :multipart => true) do %>
+          <p><label for="upload_file">Select File</label>
+          <%= file_field 'upload', 'datafile' %></p>
+          <%= submit_tag "Upload file" %>
+      <% end %>
+
+
+
+    <% end %>
+  </div>
+</div>

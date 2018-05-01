@@ -1,0 +1,79 @@
+<% title 'Show user' %>
+<div class="row">
+  <div class="container-fluid">
+    <div class="pull-right">
+
+
+      <% if current_user.has_cached_role? :admin %>
+        <%= link_to users_path, class: 'btn btn-default' do %>
+            <span class="glyphicon glyphicon-list-alt"></span>
+            Back
+        <% end %>
+        <%= link_to edit_user_path(@user), class: 'btn btn-primary' do %>
+            <span class="glyphicon glyphicon-pencil"></span>
+            Edit
+        <% end %>
+      <% else %>
+          <%= link_to :back, class: 'btn btn-default' do %>
+              <span class="glyphicon glyphicon-list-alt"></span>
+              Back
+          <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <%= yield(:title) %>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-9">
+          <dl>
+            <dd class="dl-horizontal">
+            <dt>Name:</dt>
+            <dd><%= @user.full_name %></dd>
+
+            <dt>Email:</dt>
+            <dd><%= @user.email %></dd>
+
+            <dt>Vegetarian:</dt>
+            <dd><%= @user.vegetarian ? "Yes" : "No" %></dd>
+
+            <dt>Notifications:</dt>
+            <dd><%= @user.notification ? "Enabled" : "Disabled" %></dd>
+
+            </dl>
+          </div>
+
+          <div class="col-3">
+
+            <div class="card">
+              <div class="card-header">
+                Roles
+              </div>
+
+              <div class="card-body">
+                <%=
+                  nil
+                  @user.roles.each do |role|
+                %>
+                  <li><%= role[:name].capitalize.sub('_',' ') %></li>
+                  <% end %>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

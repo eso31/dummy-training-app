@@ -1,0 +1,21 @@
+version: '2'
+services:
+  spec:
+    env_file: .env.test
+    entrypoint: bundle exec
+    build: .
+    command: rspec
+    environment:
+      - RAILS_ENV=test
+    volumes:
+      - .:/app
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:9.6
+    volumes:
+      - pg-storage:/var/lib/postgresql/data
+
+volumes:
+  pg-storage:

@@ -1,0 +1,59 @@
+<div class="tab-pane" id="votes" role="tabpanel" aria-labelledby="voters-tab">
+
+  <% if current_user.has_cached_role?(:admin) || current_user.has_cached_role?(:training_admin) %>
+    <!-- Button trigger modal -->
+    <%= button_tag name: 'vote_button', class: 'btn btn-primary', disabled: @training_request.voted?(current_user), data: {toggle: 'modal', target: '#voteModal'} do %>
+        <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> <i class="fa fa-thumbs-o-down" aria-hidden="true"></i> Vote
+    <% end %>
+  <% end %>
+
+  <div class="table-responsive">
+    <br>
+    <table class="table table-striped table-bordered table-hover">
+      <thead>
+      <tr>
+        <th>Vote</th>
+        <th>Comment</th>
+        <th>User</th>
+        <th></th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <%= content_tag_for(:tr, @training_request.training_request_polls.includes(:user)) do |training_request_poll| %>
+          <td>
+            <% if training_request_poll.user == current_user %>
+                <%= select_tag 'vote', options_for_select(TrainingRequestPoll.votes.keys, training_request_poll.vote),
+                               data: {
+                                   remote: true,
+                                   url: training_request_vote_path(@training_request, training_request_poll),
+                                   method: :post
+                               }, id: "vote-#{training_request_poll.id}", class: 'vote-select' %>
+            <% else %>
+                <%= training_request_poll.vote %>
+            <% end %>
+          </td>
+          <td><%= training_request_poll.comment %></td>
+          <td><%= training_request_poll.user %></td>
+          <td class="text-center">
+                <%= link_to training_request_training_request_poll_path(@training_request, training_request_poll), data: { toggle: 'modal', target: '#showVoteModal', training_request_poll_vote: training_request_poll.vote, training_request_poll_comment: training_request_poll.comment } do %>
+                    <i class="fa fa-eye"></i>
+                <% end %>
+            <% if training_request_poll.user == current_user && current_user.has_cached_role?(:admin) %>
+                <%= link_to '#', data: {
+                    toggle: 'modal',
+                    target: '#editVoteModal',
+                    path: training_request_training_request_poll_path(@training_request, training_request_poll),
+                    poll: training_request_poll.as_json } do %>
+                    <i class="fa fa-pencil"></i>
+                <% end %>
+                <%= link_to training_request_training_request_poll_path(@training_request, training_request_poll), method: :delete, data: {confirm: 'Are you sure?'} do %>
+                    <i class="fa fa-trash"></i>
+                <% end %>
+            <% end %>
+          </td>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

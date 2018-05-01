@@ -1,0 +1,88 @@
+<div class="tab-pane active" id="enrollments" role="tabpanel" aria-labelledby="enrollments-tab-tab">
+
+  <div class="table-responsive">
+
+    <% unless @training_session.instructors.include? current_user %>
+    <div>
+      <span class="glyphicon glyphicon-list-alt">
+        <% if @user_enrollment.blank? %>
+            <%= link_to 'Enroll', training_session_enrollments_path(@training_session, enrollment: {user_id: current_user, training_session_id: @training_session}), method: :post, class: 'btn btn-default' if !@training_session.full? %>
+        <% else %>
+            <%= link_to 'Un-enroll', training_session_enrollment_path(@training_session, @user_enrollment), method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-default' %>
+        <% end %>
+      </span>
+    </div>
+    <% end %>
+
+    <table class="table v-middle">
+      <thead>
+      <tr>
+        <th>Attended</th>
+        <th>User</th>
+        <th>Created Date</th>
+        <th class="text-center">Instructor Rating</th>
+        <% if current_user.has_cached_role?(:admin) || current_user.has_cached_role?(:workshops_admin) %>
+            <th>Actions</th>
+        <% end %>
+      </tr>
+      </thead>
+      <tbody id="responsive-table-body">
+      <%= content_tag_for(:tr, @training_session.enrollments) do |enrollment| %>
+          <td>
+            <%= check_box_tag "attended-#{enrollment.id}", enrollment.id, enrollment.attended,
+                              disabled: !(current_user.has_cached_role?(:admin) || current_user.has_cached_role?(:workshops_admin) || current_user.has_cached_role?(:instructor, @training_session)),
+                              data: {
+                                  remote: true,
+                                  url: training_session_enrollment_path(@training_session, enrollment),
+                                  method: :patch,
+                                  'session-rating': enrollment.session_rating ? enrollment.session_rating.rating : 0,
+                                  'own-enrollment': enrollment.user == current_user
+                              },
+            class: 'attend-check' %>
+
+          </td>
+          <td>
+            <div>
+              <% if enrollment.session_rating.nil? %>
+                  <%= enrollment.user.full_name %></a>
+                <% else %>
+                <%= link_to session_rating_path(enrollment.session_rating.id) do %>
+                    <%= enrollment.user.full_name %></a>
+                <% end %>
+              <% end %>
+            </div>
+            <div class="text-muted">
+              <%= enrollment.user.email %>
+            </div>
+          </td>
+          <td><%= enrollment.created_at.strftime('%B %d, %Y') %></td>
+          <!-- Rating -->
+          <td class="text-center">
+            <% if enrollment.attended %>
+              <%= session_rate enrollment&.session_rating&.rating ? enrollment.session_rating.rating : 0, clickable: enrollment.user == current_user && enrollment.attended %>
+            <% end %>
+          </td>
+          <!-- un-enroll/ -->
+          <% if current_user.has_cached_role?(:admin) || current_user.has_cached_role?(:workshops_admin) %>
+              <td><%= link_to 'Un-enroll', training_session_enrollment_path(@training_session, enrollment), method: :delete, data: {confirm: 'Are you sure?'} %></td>
+          <% end %>
+      <% end %>
+      </tbody>
+    </table>
+
+    <% if current_user.has_cached_role?(:admin) || current_user.has_cached_role?(:workshops_admin) %>
+        <%= form_for Enrollment.new, url: training_session_enrollments_path(@training_session) do |f| %>
+            <div class="form-group">
+
+              <div class="col-sm-9">
+                <%= f.autocomplete :user %>
+                <%= f.hidden_field :training_session_id, value: @training_session.id %>
+              </div>
+              <%= f.submit value: 'Enroll User', class: 'btn btn-primary  col-sm-2' %>
+            </div>
+        <% end %>
+    <% end %>
+  </div>
+
+
+</div>

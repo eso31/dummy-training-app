@@ -1,0 +1,57 @@
+<% title 'Class locations' %>
+
+<div class="card">
+
+  <div class="card-header">
+    <h5><strong><%= yield(:title) %></strong></h5>
+  </div>
+
+  <div class="card-body">
+
+    <div class="row">
+      <div class="col-12">
+
+        <div class="pull-right">
+          <% if current_user.has_cached_role?(:admin) %>
+              <%= link_to new_class_location_path, class: 'btn btn-primary' do %>
+                  <span class="glyphicon glyphicon-plus"></span>
+                  New Class location
+              <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <br/>
+
+    <div class="table-responsive">
+      <table class="table table-responsive-sm table-hover mb-0">
+        <thead class="thead-light">
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Timezone</th>
+          <th>Actions</th>
+
+        </tr>
+        </thead>
+
+        <tbody>
+        <%= content_tag_for(:tr, @class_locations) do |class_location| %>
+            <td><%= link_to class_location.name, class_location %></td>
+            <td><%= class_location.email %></td>
+            <td><%= class_location.timezone %></td>
+            <td>
+              <% if !current_user.has_cached_role?(:admin) %>
+                  <%= link_to class_location_path(class_location) %>
+              <% else %>
+                  <%= crud_links class_location %>
+              <% end %></td>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <%= paginate @class_locations %>
+  </div>
+</div>

@@ -1,0 +1,37 @@
+<% title 'Class location' %>
+
+<div class="row">
+  <div class="container-fluid">
+    <div class="pull-right">
+      <%= link_to class_locations_path, class: 'btn btn-default' do %>
+        <span class="glyphicon glyphicon-list-alt"></span>
+        Back
+      <% end %>
+      <%= link_to edit_class_location_path(@class_location), class: 'btn btn-primary' do %>
+        <span class="glyphicon glyphicon-pencil"></span>
+        Edit
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h5>Name: <strong><%= @class_location.name %></strong></h5>
+      </div>
+      <div class="card-body">
+        <dl class="dl-horizontal">
+
+          <dt>Email:</dt>
+          <dd><%= @class_location.email %></dd>
+
+          <dt>Timezone:</dt>
+          <dd><%= @class_location.timezone %></dd>
+
+        </dl>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,80 @@
+<%= title 'Show audit' %>
+
+<div class="row">
+  <div class="container-fluid">
+    <div class="pull-right">
+
+      <%= link_to audits_path, class: 'btn btn-default' do %>
+          <span class="glyphicon glyphicon-list-alt"></span>
+          Back
+      <% end %>
+
+    </div>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-md-9">
+
+    <div class="card">
+      <div class="card-header">
+        Audit: <strong><%= @audit.auditable_type %>, <%= @audit.action %></strong>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-xs-6">
+            <dl>
+
+              <dt>Auditable Type:</dt>
+              <dd><%= @audit.auditable_type %></dd>
+
+              <dt>User:</dt>
+              <dd><%= @audit.user.nil? ? 'Not defined' : @audit.user.email %></dd>
+
+            </dl>
+          </div>
+          <div class="col-xs-6">
+            <dl>
+
+              <dt>Action:</dt>
+              <dd><%= @audit.action %></dd>
+
+              <dt>Date:</dt>
+              <dd><%= @audit.created_at %></dd>
+
+            </dl>
+          </div>
+        </div>
+      </div>
+      <hr class="margin-none">
+      <div class="card-body">
+        <strong>Changes:</strong>
+        <pre><code><%= @audit.audited_changes %></code></pre>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card" style="border: 1px solid #ddd">
+      <div class="card-header">
+        User info
+      </div>
+      <div class="card-body">
+        <% if @audit.user %>
+            <p><strong>Name:</strong> <%= @audit.user.full_name %></p>
+            <p><strong>Email:</strong> <%= @audit.user.email %></p>
+            <p><strong>Member from:</strong> <%= @audit.user.created_at %></p>
+            <p><strong>Roles:</strong>
+              <%= content_tag_for(:ul, @audit.user.roles) do |role| %>
+                <li><%= role.name %></li>
+            <% end %>
+            </p>
+
+        <% else %>
+            <p>System Action</p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+

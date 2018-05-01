@@ -1,0 +1,33 @@
+<% title 'Rating Information' %>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h8>User: <strong><%= @session_rating.user.full_name %></strong></h8><br>
+        <h7 class="text-headline">
+          <%= @session_rating.user_type.capitalize %>
+        </h7>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6">
+            <dt>Rate:</dt>
+            <dd><%= session_rate @session_rating.rating.nil? ? 0 : @session_rating.rating %></dd>
+            <dt>Comment:</dt>
+            <dd><%= @session_rating.comment.capitalize %></dd>
+          </div>
+          <div class="col-md-4 col-md-offset-1">
+            <div>
+              What went wrong:
+              <% @session_rating.session_rating_reasons.each do |reason| %>
+                  <li><%= reason.description %></li>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

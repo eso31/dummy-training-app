@@ -1,0 +1,45 @@
+version: '2'
+services:
+  app:
+    env_file: .env.production
+    entrypoint: ''
+    build:
+      context: .
+      dockerfile: Dockerfile-production
+    command: bundle exec puma -C config/puma.rb config.ru -e production
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/app
+    depends_on:
+      - postgres
+
+
+  postgres:
+    container_name: postgres
+    image: postgres:9.6
+    volumes:
+      - pg-storage:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  elasticsearch:
+    extends:
+      file: docker/elasticsearch.yml
+      service: elasticsearch
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile-nginx
+    links:
+      - app
+    ports:
+      - 80:80
+    expose:
+      - 80
+    volumes:
+      - ./public:/app/public
+
+volumes:
+  pg-storage:

@@ -1,0 +1,85 @@
+<div class="panel panel-default">
+  <div class="panel-body">
+
+    <%= form_for(@training_request, html: {class: 'form-horizontal', role: 'form'}) do |f| %>
+        <% if @training_request.errors.any? %>
+            <div class="alert alert-danger alert-dismissable" role="alert">
+              <button type="button" class="close" data-dismiss="alert">
+                <span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+              <h4><%= pluralize(@training_request.errors.count, 'error') %> prohibited this training_request from being
+                saved:</h4>
+
+              <ul>
+                <% @training_request.errors.full_messages.each do |msg| %>
+                    <li><%= msg %></li>
+                <% end %>
+              </ul>
+            </div>
+        <% end %>
+
+
+        <div class="form_group row">
+          <div class="col-sm-12"><%= f.text_field :name %></div>
+          <div class="col-sm-12"><%= f.text_area :description %></div>
+          <div class="col-sm-12"><%= f.text_field :location, use_div_wrapper: false, label_classes: 'col-sm-12', field_classes: 'col-sm-12' %></div>
+          <div class="col-sm-12"><%= f.number_field :duration_in_minutes, use_div_wrapper: false, label_classes: 'col-sm-12', field_classes: 'col-sm-12' %></div>
+        </div>
+        <div class="form_group row">
+          <div class="col-sm-12" style="display: inline-flex">
+          <div class="col-sm-6">
+            <label>Start date</label>
+            <div class="input-group">
+              <div class="input-group-prepend">
+                              <span class="input-group-text">
+                                <i class="fa fa-calendar" , style="background: transparent"></i>
+                              </span>
+              </div>
+              <input type="text" class='datepicker' name='training_request[start_date]' style="flex: 2;">
+
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <label>End date</label>
+
+            <div class="input-group">
+              <div class="input-group-prepend">
+                              <span class="input-group-text">
+                                <i class="fa fa-calendar" , style="background: transparent"></i>
+                              </span>
+              </div>
+              <input type="text" class='datepicker' name='training_request[end_date]' style="flex: 2;">
+
+            </div>
+          </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <%= f.label "Reference File (Url)", class: 'col-sm-12 control-label' %>
+          <div class="col-sm-12">
+            <%= text_field_tag "training_request[reference_file]", nil, class: 'form-control' %>
+          </div>
+        </div>
+
+        <% if current_user.has_cached_role? :admin %>
+            <div class="form-group">
+              <%= f.label :status, class: 'col-sm-12 control-label' %>
+              <div class="col-sm-12">
+                <%= f.select :training_request, :status, REQUEST_STATUS, class: 'form-control' %>
+              </div>
+            </div>
+            <div>
+              <%= f.autocomplete :assigned_to_user, use_div_wrapper: false, field_classes: 'col-sm-12' %>
+              <%= label_tag nil, "Next in Queue: #{@users.first}", class: 'col-sm-12 control-label' %>
+            </div>
+            <%= f.autocomplete :requested_by_user, use_div_wrapper: false, label_classes: 'col-sm-12', field_classes: 'col-sm-12' %>
+        <% end %>
+
+        <br>
+
+        <div class="form-group">
+          <%= f.submit class: 'btn btn-primary' %>
+        </div>
+    <% end %>
+  </div>
+</div>

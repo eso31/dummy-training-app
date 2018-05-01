@@ -1,0 +1,351 @@
+Started GET "/training_sessions/2641" for 127.0.0.1 at 2018-04-30 18:27:20 -0600
+  [1m[35m (0.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by TrainingSessionsController#show as HTML
+  Parameters: {"id"=>"2641"}
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 10339], ["LIMIT", 1]]
+  [1m[36mTrainingSession Load (0.5ms)[0m  [1m[34mSELECT  "training_sessions".* FROM "training_sessions" WHERE "training_sessions"."id" = $1 LIMIT $2[0m  [["id", 2641], ["LIMIT", 1]]
+  [1m[36mRole Load (1.1ms)[0m  [1m[34mSELECT "roles".* FROM "roles" INNER JOIN "users_roles" ON "roles"."id" = "users_roles"."role_id" WHERE "users_roles"."user_id" = $1[0m  [["user_id", 10339]]
+  [1m[35m (1.6ms)[0m  [1m[34mSELECT "training_sessions"."id" FROM "training_sessions" INNER JOIN "roles" ON "roles".resource_type IN ('TrainingSession') AND
+                                    ("roles".resource_id IS NULL OR "roles".resource_id = "training_sessions"."id") WHERE ("roles".name IN ('instructor') AND "roles".resource_type IN ('TrainingSession')) AND ("roles"."id" IN (SELECT "roles"."id" FROM "roles" INNER JOIN "users_roles" ON "roles"."id" = "users_roles"."role_id" WHERE "users_roles"."user_id" = 10339 AND "roles"."name" = 'instructor') AND (("roles".resource_id = "training_sessions"."id") OR ("roles".resource_id IS NULL)))[0m
+  [1m[36mCACHE TrainingSession Load (0.0ms)[0m  [1m[34mSELECT  "training_sessions".* FROM "training_sessions" WHERE "training_sessions"."id" = $1 LIMIT $2[0m  [["id", 2641], ["LIMIT", 1]]
+  [1m[36mGeneralLedger Load (0.8ms)[0m  [1m[34mSELECT "general_ledgers".* FROM "general_ledgers" WHERE "general_ledgers"."training_session_id" = 2641[0m
+  [1m[36mHABTM_Instructors Load (0.6ms)[0m  [1m[34mSELECT "instructors".* FROM "instructors" WHERE "instructors"."training_session_id" = 2641[0m
+  [1m[36mClassLocation Load (0.5ms)[0m  [1m[34mSELECT "class_locations".* FROM "class_locations" WHERE "class_locations"."id" = 1[0m
+  [1m[36mFinancialAccount Load (1.3ms)[0m  [1m[34mSELECT "financial_accounts".* FROM "financial_accounts" WHERE "financial_accounts"."id" = 1065[0m
+  [1m[36mLedgerCategory Load (0.6ms)[0m  [1m[34mSELECT "ledger_categories".* FROM "ledger_categories" WHERE "ledger_categories"."id" = 9[0m
+  [1m[36mEnrollment Load (0.5ms)[0m  [1m[34mSELECT "enrollments".* FROM "enrollments" WHERE "enrollments"."training_session_id" = 2641[0m
+  [1m[36mSessionRating Load (0.6ms)[0m  [1m[34mSELECT "session_ratings".* FROM "session_ratings" WHERE "session_ratings"."enrollment_id" IN (3611, 6023)[0m
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IN (49, 93)[0m
+  [1m[36mEnrollment Load (0.7ms)[0m  [1m[34mSELECT  "enrollments".* FROM "enrollments" WHERE "enrollments"."user_id" = 10339 AND "enrollments"."training_session_id" = 2641 LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mSessionRating Load (0.6ms)[0m  [1m[34mSELECT  "session_ratings".* FROM "session_ratings" WHERE "session_ratings"."user_id" = 10339 AND "session_ratings"."enrollment_id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendering training_sessions/show.html.erb within layouts/application
+  [1m[35m (0.7ms)[0m  [1m[34mSELECT COUNT(*) FROM "enrollments" WHERE "enrollments"."training_session_id" = $1 AND "enrollments"."attended" = $2[0m  [["training_session_id", 2641], ["attended", "t"]]
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "enrollments" WHERE "enrollments"."training_session_id" = $1[0m  [["training_session_id", 2641]]
+  [1m[35mCACHE  (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "enrollments" WHERE "enrollments"."training_session_id" = $1[0m  [["training_session_id", 2641]]
+  Rendered training_sessions/_enrollments_tab.html.erb (13.3ms)
+  Rendered training_sessions/_grading_tab.html.erb (17.8ms)
+  Rendered training_sessions/show.html.erb within layouts/application (52.7ms)
+Completed 401 Unauthorized in 388ms (ActiveRecord: 49.6ms)
+
+
+  
+ActionView::Template::Error (No route matches {:action=>"get_file", :controller=>"grading", :id=>"2641"}):
+    30:       <input type="file" name="fileToUpload" id="fileToUpload">
+    31:       <input type="submit" value="Upload file" name="submit">-->
+    32: 
+    33:       <%= form_tag({:action => 'get_file', :controller => 'grading'}, :multipart => true) do %>
+    34:           <p><label for="upload_file">Select File</label>
+    35:           <%= file_field 'upload', 'datafile' %></p>
+    36:           <%= submit_tag "Upload file" %>
+  
+app/views/training_sessions/_grading_tab.html.erb:33:in `_app_views_training_sessions__grading_tab_html_erb__3125180448726451470_69921875813700'
+app/views/training_sessions/show.html.erb:136:in `_app_views_training_sessions_show_html_erb___1639192337363956598_83426920'
+Started GET "/" for 127.0.0.1 at 2018-04-30 18:27:24 -0600
+Processing by HomeController#index as HTML
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 10339], ["LIMIT", 1]]
+  [1m[36mRole Load (0.7ms)[0m  [1m[34mSELECT "roles".* FROM "roles" INNER JOIN "users_roles" ON "roles"."id" = "users_roles"."role_id" WHERE "users_roles"."user_id" = $1[0m  [["user_id", 10339]]
+  Rendering home/index.html.erb within layouts/application
+  Rendered training_requests/_search_widget.html.erb (3.6ms)
+  [1m[36mTrainingRequest Load (1.3ms)[0m  [1m[34mSELECT  "training_requests".* FROM "training_requests" WHERE ("training_requests"."status" != $1) AND ("training_requests"."status" != $2) ORDER BY "training_requests"."start_date" DESC LIMIT $3 OFFSET $4[0m  [["status", "APPROVED"], ["status", "NOT_APPROVED"], ["LIMIT", 15], ["OFFSET", 0]]
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 46[0m
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 150[0m
+  Rendered training_requests/_training_request_table.html.erb (31.2ms)
+  Rendered home/_home_training_requests.html.erb (32.2ms)
+  Rendered home/index.html.erb within layouts/application (33.7ms)
+  Rendered layouts/_side_bar_menu.html.erb (64.9ms)
+Completed 200 OK in 18072ms (Views: 18060.3ms | ActiveRecord: 5.0ms)
+
+
+Started GET "/training_sessions" for 127.0.0.1 at 2018-04-30 18:27:45 -0600
+Processing by TrainingSessionsController#index as HTML
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 10339], ["LIMIT", 1]]
+  [1m[36mRole Load (0.8ms)[0m  [1m[34mSELECT "roles".* FROM "roles" INNER JOIN "users_roles" ON "roles"."id" = "users_roles"."role_id" WHERE "users_roles"."user_id" = $1[0m  [["user_id", 10339]]
+  [1m[35m (1.4ms)[0m  [1m[34mSELECT "training_sessions"."id" FROM "training_sessions" INNER JOIN "roles" ON "roles".resource_type IN ('TrainingSession') AND
+                                    ("roles".resource_id IS NULL OR "roles".resource_id = "training_sessions"."id") WHERE ("roles".name IN ('instructor') AND "roles".resource_type IN ('TrainingSession')) AND ("roles"."id" IN (SELECT "roles"."id" FROM "roles" INNER JOIN "users_roles" ON "roles"."id" = "users_roles"."role_id" WHERE "users_roles"."user_id" = 10339 AND "roles"."name" = 'instructor') AND (("roles".resource_id = "training_sessions"."id") OR ("roles".resource_id IS NULL)))[0m
+  Rendering training_sessions/index.html.erb within layouts/application
+  [1m[36mTrainingSession Load (1.0ms)[0m  [1m[34mSELECT  "training_sessions".* FROM "training_sessions" ORDER BY "training_sessions"."start_date" DESC LIMIT $1 OFFSET $2[0m  [["LIMIT", 15], ["OFFSET", 0]]
+  [1m[36mCourse Load (0.8ms)[0m  [1m[34mSELECT "courses".* FROM "courses" WHERE "courses"."id" IN (2405, 2361, 2424, 2413, 2485, 2423, 2744, 2422, 9063, 2408)[0m
+  [1m[36mClassLocation Load (0.7ms)[0m  [1m[34mSELECT "class_locations".* FROM "class_locations" WHERE "class_locations"."id" IN (1, 2262, 2683, 2, 3)[0m
+  [1m[35m (0.8ms)[0m  [1m[34mSELECT COUNT(*) FROM "training_sessions"[0m
+  Rendered training_sessions/_training_session_table.html.erb (56.0ms)
+  Rendered training_sessions/index.html.erb within layouts/application (58.4ms)
+  Rendered layouts/_side_bar_menu.html.erb (5.0ms)
+Completed 200 OK in 194ms (Views: 170.4ms | ActiveRecord: 8.2ms)
+
+
+Started GET "/training_sessions/2641" for 127.0.0.1 at 2018-04-30 18:27:46 -0600
+Processing by TrainingSessionsController#show as HTML
+  Parameters: {"id"=>"2641"}
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 10339], ["LIMIT", 1]]
+  [1m[36mTrainingSession Load (0.9ms)[0m  [1m[34mSELECT  "training_sessions".* FROM "training_sessions" WHERE "training_sessions"."id" = $1 LIMIT $2[0m  [["id", 2641], ["LIMIT", 1]]
+  [1m[36mRole Load (0.7ms)[0m  [1m[34mSELECT "roles".* FROM "roles" INNER JOIN "users_roles" ON "roles"."id" = "users_roles"."role_id" WHERE "users_roles"."user_id" = $1[0m  [["user_id", 10339]]
+  [1m[35m (1.6ms)[0m  [1m[34mSELECT "training_sessions"."id" FROM "training_sessions" INNER JOIN "roles" ON "roles".resource_type IN ('TrainingSession') AND
+                                    ("roles".resource_id IS NULL OR "roles".resource_id = "training_sessions"."id") WHERE ("roles".name IN ('instructor') AND "roles".resource_type IN ('TrainingSession')) AND ("roles"."id" IN (SELECT "roles"."id" FROM "roles" INNER JOIN "users_roles" ON "roles"."id" = "users_roles"."role_id" WHERE "users_roles"."user_id" = 10339 AND "roles"."name" = 'instructor') AND (("roles".resource_id = "training_sessions"."id") OR ("roles".resource_id IS NULL)))[0m
+  [1m[36mCACHE TrainingSession Load (0.0ms)[0m  [1m[34mSELECT  "training_sessions".* FROM "training_sessions" WHERE "training_sessions"."id" = $1 LIMIT $2[0m  [["id", 2641], ["LIMIT", 1]]
+  [1m[36mGeneralLedger Load (0.5ms)[0m  [1m[34mSELECT "general_ledgers".* FROM "general_ledgers" WHERE "general_ledgers"."training_session_id" = 2641[0m
+  [1m[36mHABTM_Instructors Load (0.6ms)[0m  [1m[34mSELECT "instructors".* FROM "instructors" WHERE "instructors"."training_session_id" = 2641[0m
+  [1m[36mClassLocation Load (0.5ms)[0m  [1m[34mSELECT "class_locations".* FROM "class_locations" WHERE "class_locations"."id" = 1[0m
+  [1m[36mFinancialAccount Load (0.4ms)[0m  [1m[34mSELECT "financial_accounts".* FROM "financial_accounts" WHERE "financial_accounts"."id" = 1065[0m
+  [1m[36mLedgerCategory Load (0.6ms)[0m  [1m[34mSELECT "ledger_categories".* FROM "ledger_categories" WHERE "ledger_categories"."id" = 9[0m
+  [1m[36mEnrollment Load (0.4ms)[0m  [1m[34mSELECT "enrollments".* FROM "enrollments" WHERE "enrollments"."training_session_id" = 2641[0m
+  [1m[36mSessionRating Load (0.5ms)[0m  [1m[34mSELECT "session_ratings".* FROM "session_ratings" WHERE "session_ratings"."enrollment_id" IN (3611, 6023)[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IN (49, 93)[0m
+  [1m[36mEnrollment Load (0.4ms)[0m  [1m[34mSELECT  "enrollments".* FROM "enrollments" WHERE "enrollments"."user_id" = 10339 AND "enrollments"."training_session_id" = 2641 LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mSessionRating Load (0.3ms)[0m  [1m[34mSELECT  "session_ratings".* FROM "session_ratings" WHERE "session_ratings"."user_id" = 10339 AND "session_ratings"."enrollment_id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendering training_sessions/show.html.erb within layouts/application
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "enrollments" WHERE "enrollments"."training_session_id" = $1 AND "enrollments"."attended" = $2[0m  [["training_session_id", 2641], ["attended", "t"]]
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "enrollments" WHERE "enrollments"."training_session_id" = $1[0m  [["training_session_id", 2641]]
+  [1m[35mCACHE  (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "enrollments" WHERE "enrollments"."training_session_id" = $1[0m  [["training_session_id", 2641]]
+  Rendered training_sessions/_enrollments_tab.html.erb (7.1ms)
+  Rendered training_sessions/_grading_tab.html.erb (1.9ms)
+  Rendered training_sessions/show.html.erb within layouts/application (16.2ms)
+Completed 401 Unauthorized in 53ms (ActiveRecord: 9.4ms)
+
+
+  
+ActionView::Template::Error (No route matches {:action=>"get_file", :controller=>"grading", :id=>"2641"}):
+    30:       <input type="file" name="fileToUpload" id="fileToUpload">
+    31:       <input type="submit" value="Upload file" name="submit">-->
+    32: 
+    33:       <%= form_tag({:action => 'get_file', :controller => 'grading'}, :multipart => true) do %>
+    34:           <p><label for="upload_file">Select File</label>
+    35:           <%= file_field 'upload', 'datafile' %></p>
+    36:           <%= submit_tag "Upload file" %>
+  
+app/views/training_sessions/_grading_tab.html.erb:33:in `_app_views_training_sessions__grading_tab_html_erb__3125180448726451470_69921830517040'
+app/views/training_sessions/show.html.erb:136:in `_app_views_training_sessions_show_html_erb___1639192337363956598_69921829146780'
+Started GET "/training_sessions/2641" for 127.0.0.1 at 2018-04-30 18:28:10 -0600
+Processing by TrainingSessionsController#show as HTML
+  Parameters: {"id"=>"2641"}
+  [1m[36mUser Load (1.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 10339], ["LIMIT", 1]]
+  [1m[36mTrainingSession Load (1.2ms)[0m  [1m[34mSELECT  "training_sessions".* FROM "training_sessions" WHERE "training_sessions"."id" = $1 LIMIT $2[0m  [["id", 2641], ["LIMIT", 1]]
+  [1m[36mRole Load (1.4ms)[0m  [1m[34mSELECT "roles".* FROM "roles" INNER JOIN "users_roles" ON "roles"."id" = "users_roles"."role_id" WHERE "users_roles"."user_id" = $1[0m  [["user_id", 10339]]
+  [1m[35m (2.7ms)[0m  [1m[34mSELECT "training_sessions"."id" FROM "training_sessions" INNER JOIN "roles" ON "roles".resource_type IN ('TrainingSession') AND
+                                    ("roles".resource_id IS NULL OR "roles".resource_id = "training_sessions"."id") WHERE ("roles".name IN ('instructor') AND "roles".resource_type IN ('TrainingSession')) AND ("roles"."id" IN (SELECT "roles"."id" FROM "roles" INNER JOIN "users_roles" ON "roles"."id" = "users_roles"."role_id" WHERE "users_roles"."user_id" = 10339 AND "roles"."name" = 'instructor') AND (("roles".resource_id = "training_sessions"."id") OR ("roles".resource_id IS NULL)))[0m
+  [1m[36mCACHE TrainingSession Load (0.0ms)[0m  [1m[34mSELECT  "training_sessions".* FROM "training_sessions" WHERE "training_sessions"."id" = $1 LIMIT $2[0m  [["id", 2641], ["LIMIT", 1]]
+  [1m[36mGeneralLedger Load (0.9ms)[0m  [1m[34mSELECT "general_ledgers".* FROM "general_ledgers" WHERE "general_ledgers"."training_session_id" = 2641[0m
+  [1m[36mHABTM_Instructors Load (0.8ms)[0m  [1m[34mSELECT "instructors".* FROM "instructors" WHERE "instructors"."training_session_id" = 2641[0m
+  [1m[36mClassLocation Load (1.1ms)[0m  [1m[34mSELECT "class_locations".* FROM "class_locations" WHERE "class_locations"."id" = 1[0m
+  [1m[36mFinancialAccount Load (1.2ms)[0m  [1m[34mSELECT "financial_accounts".* FROM "financial_accounts" WHERE "financial_accounts"."id" = 1065[0m
+  [1m[36mLedgerCategory Load (0.9ms)[0m  [1m[34mSELECT "ledger_categories".* FROM "ledger_categories" WHERE "ledger_categories"."id" = 9[0m
+  [1m[36mEnrollment Load (0.8ms)[0m  [1m[34mSELECT "enrollments".* FROM "enrollments" WHERE "enrollments"."training_session_id" = 2641[0m
+  [1m[36mSessionRating Load (0.9ms)[0m  [1m[34mSELECT "session_ratings".* FROM "session_ratings" WHERE "session_ratings"."enrollment_id" IN (3611, 6023)[0m
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IN (49, 93)[0m
+  [1m[36mEnrollment Load (0.7ms)[0m  [1m[34mSELECT  "enrollments".* FROM "enrollments" WHERE "enrollments"."user_id" = 10339 AND "enrollments"."training_session_id" = 2641 LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mSessionRating Load (0.6ms)[0m  [1m[34mSELECT  "session_ratings".* FROM "session_ratings" WHERE "session_ratings"."user_id" = 10339 AND "session_ratings"."enrollment_id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendering training_sessions/show.html.erb within layouts/application
+  [1m[35m (0.9ms)[0m  [1m[34mSELECT COUNT(*) FROM "enrollments" WHERE "enrollments"."training_session_id" = $1 AND "enrollments"."attended" = $2[0m  [["training_session_id", 2641], ["attended", "t"]]
+  [1m[35m (0.8ms)[0m  [1m[34mSELECT COUNT(*) FROM "enrollments" WHERE "enrollments"."training_session_id" = $1[0m  [["training_session_id", 2641]]
+  [1m[35mCACHE  (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "enrollments" WHERE "enrollments"."training_session_id" = $1[0m  [["training_session_id", 2641]]
+  Rendered training_sessions/_enrollments_tab.html.erb (6.2ms)
+  Rendered training_sessions/_grading_tab.html.erb (2.1ms)
+  Rendered training_sessions/show.html.erb within layouts/application (15.0ms)
+Completed 401 Unauthorized in 64ms (ActiveRecord: 17.2ms)
+
+
+  
+ActionView::Template::Error (No route matches {:action=>"grade_my_code", :controller=>"grading", :id=>"2641"}):
+    30:       <input type="file" name="fileToUpload" id="fileToUpload">
+    31:       <input type="submit" value="Upload file" name="submit">-->
+    32: 
+    33:       <%= form_tag({:action => 'grade_my_code', :controller => 'grading'}, :multipart => true) do %>
+    34:           <p><label for="upload_file">Select File</label>
+    35:           <%= file_field 'upload', 'datafile' %></p>
+    36:           <%= submit_tag "Upload file" %>
+  
+app/views/training_sessions/_grading_tab.html.erb:33:in `_app_views_training_sessions__grading_tab_html_erb__3125180448726451470_69921879744920'
+app/views/training_sessions/show.html.erb:136:in `_app_views_training_sessions_show_html_erb___1639192337363956598_69921877385860'
+Started GET "/training_sessions/2641" for 127.0.0.1 at 2018-04-30 18:28:26 -0600
+  
+ArgumentError (Missing :controller key on routes definition, please check your routes.):
+  
+config/routes.rb:56:in `block in <top (required)>'
+config/routes.rb:3:in `<top (required)>'
+Started GET "/users/auth/google_oauth2" for 127.0.0.1 at 2018-04-30 18:28:31 -0600
+Started GET "/users/auth/google_oauth2" for 127.0.0.1 at 2018-04-30 18:28:31 -0600
+Started GET "/users/auth/google_oauth2/callback?state=c7ba5e855c034036d681b9b67d285a3e52335974955ec531&code=4/AACKyyCRRNPuqozXfyQ-boe-V687quWys2bRQs5UhSVbIkXBgph0BJRl9OA98t3tIrfuO_H32mr2zcEiHoYKfk4" for 127.0.0.1 at 2018-04-30 18:28:32 -0600
+  
+ActionController::RoutingError (No route matches [GET] "/users/auth/google_oauth2/callback"):
+  
+actionpack (5.1.4) lib/action_dispatch/middleware/debug_exceptions.rb:63:in `call'
+web-console (3.5.1) lib/web_console/middleware.rb:135:in `call_app'
+web-console (3.5.1) lib/web_console/middleware.rb:28:in `block in call'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `catch'
+web-console (3.5.1) lib/web_console/middleware.rb:18:in `call'
+actionpack (5.1.4) lib/action_dispatch/middleware/show_exceptions.rb:31:in `call'
+railties (5.1.4) lib/rails/rack/logger.rb:36:in `call_app'
+railties (5.1.4) lib/rails/rack/logger.rb:24:in `block in call'
+activesupport (5.1.4) lib/active_support/tagged_logging.rb:69:in `block in tagged'
+activesupport (5.1.4) lib/active_support/tagged_logging.rb:26:in `tagged'
+activesupport (5.1.4) lib/active_support/tagged_logging.rb:69:in `tagged'
+railties (5.1.4) lib/rails/rack/logger.rb:24:in `call'
+sprockets-rails (3.2.1) lib/sprockets/rails/quiet_assets.rb:13:in `call'
+actionpack (5.1.4) lib/action_dispatch/middleware/remote_ip.rb:79:in `call'
+actionpack (5.1.4) lib/action_dispatch/middleware/request_id.rb:25:in `call'
+rack (2.0.3) lib/rack/method_override.rb:22:in `call'
+rack (2.0.3) lib/rack/runtime.rb:22:in `call'
+activesupport (5.1.4) lib/active_support/cache/strategy/local_cache_middleware.rb:27:in `call'
+actionpack (5.1.4) lib/action_dispatch/middleware/executor.rb:12:in `call'
+actionpack (5.1.4) lib/action_dispatch/middleware/static.rb:125:in `call'
+rack (2.0.3) lib/rack/sendfile.rb:111:in `call'
+railties (5.1.4) lib/rails/engine.rb:522:in `call'
+puma (3.11.2) lib/puma/configuration.rb:225:in `call'
+puma (3.11.2) lib/puma/server.rb:624:in `handle_request'
+puma (3.11.2) lib/puma/server.rb:438:in `process_client'
+puma (3.11.2) lib/puma/server.rb:302:in `block in run'
+puma (3.11.2) lib/puma/thread_pool.rb:120:in `block in spawn_thread'
+Started GET "/users/auth/google_oauth2" for 127.0.0.1 at 2018-04-30 18:29:30 -0600
+Started GET "/users/auth/google_oauth2" for 127.0.0.1 at 2018-04-30 18:29:30 -0600
+Started GET "/users/auth/google_oauth2/callback?state=c963202cf9d15cfc3e75a05cd8bd55095b894c2731e261ac&code=4/AAAWa66HpP67oAMWxcBhg4hYwnIajxfq4jAtb7lEja_wejI0P88I70qxGAiwAcjlv5h8iGB-0lFouk-xU0Aq8HE" for 127.0.0.1 at 2018-04-30 18:29:31 -0600
+Processing by Users::OmniauthCallbacksController#google_oauth2 as HTML
+  Parameters: {"state"=>"c963202cf9d15cfc3e75a05cd8bd55095b894c2731e261ac", "code"=>"4/AAAWa66HpP67oAMWxcBhg4hYwnIajxfq4jAtb7lEja_wejI0P88I70qxGAiwAcjlv5h8iGB-0lFouk-xU0Aq8HE"}
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."email" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["email", "dcoss@nearsoft.com"], ["LIMIT", 1]]
+  [1m[35m (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 10339], ["LIMIT", 1]]
+Redirected to http://localhost:3000/
+Completed 302 Found in 182ms (ActiveRecord: 3.2ms)
+
+
+Started GET "/" for 127.0.0.1 at 2018-04-30 18:29:32 -0600
+Processing by HomeController#index as HTML
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 10339], ["LIMIT", 1]]
+  [1m[36mRole Load (0.5ms)[0m  [1m[34mSELECT "roles".* FROM "roles" INNER JOIN "users_roles" ON "roles"."id" = "users_roles"."role_id" WHERE "users_roles"."user_id" = $1[0m  [["user_id", 10339]]
+  Rendering home/index.html.erb within layouts/application
+  Rendered training_requests/_search_widget.html.erb (2.9ms)
+  [1m[36mTrainingRequest Load (0.8ms)[0m  [1m[34mSELECT  "training_requests".* FROM "training_requests" WHERE ("training_requests"."status" != $1) AND ("training_requests"."status" != $2) ORDER BY "training_requests"."start_date" DESC LIMIT $3 OFFSET $4[0m  [["status", "APPROVED"], ["status", "NOT_APPROVED"], ["LIMIT", 15], ["OFFSET", 0]]
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 46[0m
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = 150[0m
+  Rendered training_requests/_training_request_table.html.erb (25.0ms)
+  Rendered home/_home_training_requests.html.erb (26.0ms)
+  Rendered home/index.html.erb within layouts/application (27.4ms)
+  Rendered layouts/_side_bar_menu.html.erb (39.9ms)
+Completed 200 OK in 329ms (Views: 284.8ms | ActiveRecord: 9.1ms)
+
+
+Started GET "/training_sessions" for 127.0.0.1 at 2018-04-30 18:29:34 -0600
+Processing by TrainingSessionsController#index as HTML
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 10339], ["LIMIT", 1]]
+  [1m[36mRole Load (0.6ms)[0m  [1m[34mSELECT "roles".* FROM "roles" INNER JOIN "users_roles" ON "roles"."id" = "users_roles"."role_id" WHERE "users_roles"."user_id" = $1[0m  [["user_id", 10339]]
+  [1m[35m (1.2ms)[0m  [1m[34mSELECT "training_sessions"."id" FROM "training_sessions" INNER JOIN "roles" ON "roles".resource_type IN ('TrainingSession') AND
+                                    ("roles".resource_id IS NULL OR "roles".resource_id = "training_sessions"."id") WHERE ("roles".name IN ('instructor') AND "roles".resource_type IN ('TrainingSession')) AND ("roles"."id" IN (SELECT "roles"."id" FROM "roles" INNER JOIN "users_roles" ON "roles"."id" = "users_roles"."role_id" WHERE "users_roles"."user_id" = 10339 AND "roles"."name" = 'instructor') AND (("roles".resource_id = "training_sessions"."id") OR ("roles".resource_id IS NULL)))[0m
+  Rendering training_sessions/index.html.erb within layouts/application
+  [1m[36mTrainingSession Load (1.0ms)[0m  [1m[34mSELECT  "training_sessions".* FROM "training_sessions" ORDER BY "training_sessions"."start_date" DESC LIMIT $1 OFFSET $2[0m  [["LIMIT", 15], ["OFFSET", 0]]
+  [1m[36mCourse Load (0.8ms)[0m  [1m[34mSELECT "courses".* FROM "courses" WHERE "courses"."id" IN (2405, 2361, 2424, 2413, 2485, 2423, 2744, 2422, 9063, 2408)[0m
+  [1m[36mClassLocation Load (0.5ms)[0m  [1m[34mSELECT "class_locations".* FROM "class_locations" WHERE "class_locations"."id" IN (1, 2262, 2683, 2, 3)[0m
+  [1m[35m (0.7ms)[0m  [1m[34mSELECT COUNT(*) FROM "training_sessions"[0m
+  Rendered training_sessions/_training_session_table.html.erb (71.5ms)
+  Rendered training_sessions/index.html.erb within layouts/application (73.1ms)
+  Rendered layouts/_side_bar_menu.html.erb (4.2ms)
+Completed 200 OK in 220ms (Views: 152.7ms | ActiveRecord: 15.3ms)
+
+
+Started GET "/training_sessions/2641" for 127.0.0.1 at 2018-04-30 18:29:35 -0600
+Processing by TrainingSessionsController#show as HTML
+  Parameters: {"id"=>"2641"}
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 10339], ["LIMIT", 1]]
+  [1m[36mTrainingSession Load (3.0ms)[0m  [1m[34mSELECT  "training_sessions".* FROM "training_sessions" WHERE "training_sessions"."id" = $1 LIMIT $2[0m  [["id", 2641], ["LIMIT", 1]]
+  [1m[36mRole Load (0.4ms)[0m  [1m[34mSELECT "roles".* FROM "roles" INNER JOIN "users_roles" ON "roles"."id" = "users_roles"."role_id" WHERE "users_roles"."user_id" = $1[0m  [["user_id", 10339]]
+  [1m[35m (1.1ms)[0m  [1m[34mSELECT "training_sessions"."id" FROM "training_sessions" INNER JOIN "roles" ON "roles".resource_type IN ('TrainingSession') AND
+                                    ("roles".resource_id IS NULL OR "roles".resource_id = "training_sessions"."id") WHERE ("roles".name IN ('instructor') AND "roles".resource_type IN ('TrainingSession')) AND ("roles"."id" IN (SELECT "roles"."id" FROM "roles" INNER JOIN "users_roles" ON "roles"."id" = "users_roles"."role_id" WHERE "users_roles"."user_id" = 10339 AND "roles"."name" = 'instructor') AND (("roles".resource_id = "training_sessions"."id") OR ("roles".resource_id IS NULL)))[0m
+  [1m[36mCACHE TrainingSession Load (0.0ms)[0m  [1m[34mSELECT  "training_sessions".* FROM "training_sessions" WHERE "training_sessions"."id" = $1 LIMIT $2[0m  [["id", 2641], ["LIMIT", 1]]
+  [1m[36mGeneralLedger Load (0.7ms)[0m  [1m[34mSELECT "general_ledgers".* FROM "general_ledgers" WHERE "general_ledgers"."training_session_id" = 2641[0m
+  [1m[36mHABTM_Instructors Load (0.6ms)[0m  [1m[34mSELECT "instructors".* FROM "instructors" WHERE "instructors"."training_session_id" = 2641[0m
+  [1m[36mClassLocation Load (0.7ms)[0m  [1m[34mSELECT "class_locations".* FROM "class_locations" WHERE "class_locations"."id" = 1[0m
+  [1m[36mFinancialAccount Load (0.6ms)[0m  [1m[34mSELECT "financial_accounts".* FROM "financial_accounts" WHERE "financial_accounts"."id" = 1065[0m
+  [1m[36mLedgerCategory Load (0.7ms)[0m  [1m[34mSELECT "ledger_categories".* FROM "ledger_categories" WHERE "ledger_categories"."id" = 9[0m
+  [1m[36mEnrollment Load (0.8ms)[0m  [1m[34mSELECT "enrollments".* FROM "enrollments" WHERE "enrollments"."training_session_id" = 2641[0m
+  [1m[36mSessionRating Load (0.6ms)[0m  [1m[34mSELECT "session_ratings".* FROM "session_ratings" WHERE "session_ratings"."enrollment_id" IN (3611, 6023)[0m
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IN (49, 93)[0m
+  [1m[36mEnrollment Load (0.8ms)[0m  [1m[34mSELECT  "enrollments".* FROM "enrollments" WHERE "enrollments"."user_id" = 10339 AND "enrollments"."training_session_id" = 2641 LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mSessionRating Load (0.8ms)[0m  [1m[34mSELECT  "session_ratings".* FROM "session_ratings" WHERE "session_ratings"."user_id" = 10339 AND "session_ratings"."enrollment_id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendering training_sessions/show.html.erb within layouts/application
+  [1m[35m (0.9ms)[0m  [1m[34mSELECT COUNT(*) FROM "enrollments" WHERE "enrollments"."training_session_id" = $1 AND "enrollments"."attended" = $2[0m  [["training_session_id", 2641], ["attended", "t"]]
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "enrollments" WHERE "enrollments"."training_session_id" = $1[0m  [["training_session_id", 2641]]
+  [1m[35mCACHE  (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "enrollments" WHERE "enrollments"."training_session_id" = $1[0m  [["training_session_id", 2641]]
+  Rendered training_sessions/_enrollments_tab.html.erb (24.6ms)
+  Rendered training_sessions/_grading_tab.html.erb (3.4ms)
+  Rendered training_sessions/_finance_tab.html.erb (3.7ms)
+  Rendered general_ledgers/_form_modal.html.erb (5.8ms)
+  [1m[36mRatingReason Load (1.0ms)[0m  [1m[34mSELECT "rating_reasons".* FROM "rating_reasons"[0m
+  Rendered session_ratings/_form_modal.html.erb (19.8ms)
+  Rendered training_sessions/show.html.erb within layouts/application (67.3ms)
+  Rendered layouts/_side_bar_menu.html.erb (4.3ms)
+Completed 200 OK in 287ms (Views: 153.4ms | ActiveRecord: 39.9ms)
+
+
+Started POST "/grading/grade_my_code" for 127.0.0.1 at 2018-04-30 18:29:51 -0600
+Processing by GradingController#grade_my_code as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"bWqDltYoXc8ePHFzvD9aO7rXqxmV7cfPv3ofWgY15d3GPOFizbmtm1XBb/+oPwGNPe9bdkWpS2Xr2YXhbS3Xeg==", "upload"=>{"datafile"=>#<ActionDispatch::Http::UploadedFile:0x007f2fc8197db0 @tempfile=#<Tempfile:/tmp/RackMultipart20180430-6204-ecj6wh.js>, @original_filename="usercode.js", @content_type="application/javascript", @headers="Content-Disposition: form-data; name=\"upload[datafile]\"; filename=\"usercode.js\"\r\nContent-Type: application/javascript\r\n">}, "commit"=>"Upload file"}
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 10339], ["LIMIT", 1]]
+Completed 401 Unauthorized in 158ms (ActiveRecord: 0.5ms)
+
+
+  
+NoMethodError (undefined method `get_langid' for #<GradingController:0x007f2fc81a5e10>):
+  
+app/controllers/grading_controller.rb:4:in `grade_my_code'
+Started POST "/grading/grade_my_code" for 127.0.0.1 at 2018-04-30 18:31:53 -0600
+Processing by GradingController#grade_my_code as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"Lk5BY/DN/RoCUV7sSSpokg1QjIeeTQEYtiVfSWR/EiZTN6HoUgTiPOdjvvZ9tEoChOC4hUgqy8IvN7wlONsn9A==", "upload"=>{"datafile"=>#<ActionDispatch::Http::UploadedFile:0x007f2ff81f2988 @tempfile=#<Tempfile:/tmp/RackMultipart20180430-6204-36xn1j.js>, @original_filename="usercode.js", @content_type="application/javascript", @headers="Content-Disposition: form-data; name=\"upload[datafile]\"; filename=\"usercode.js\"\r\nContent-Type: application/javascript\r\n">}, "commit"=>"Upload file"}
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 10339], ["LIMIT", 1]]
+Completed 401 Unauthorized in 7014ms (ActiveRecord: 2.1ms)
+
+
+  
+RestClient::ServerBrokeConnection (Server broke connection):
+  
+app/controllers/grading_controller.rb:7:in `grade_my_code'
+Started POST "/grading/grade_my_code" for 127.0.0.1 at 2018-04-30 18:33:40 -0600
+Processing by GradingController#grade_my_code as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"Lk5BY/DN/RoCUV7sSSpokg1QjIeeTQEYtiVfSWR/EiZTN6HoUgTiPOdjvvZ9tEoChOC4hUgqy8IvN7wlONsn9A==", "upload"=>{"datafile"=>#<ActionDispatch::Http::UploadedFile:0x007f2fe023fac0 @tempfile=#<Tempfile:/tmp/RackMultipart20180430-6204-1rx7138.js>, @original_filename="usercode.js", @content_type="application/javascript", @headers="Content-Disposition: form-data; name=\"upload[datafile]\"; filename=\"usercode.js\"\r\nContent-Type: application/javascript\r\n">}, "commit"=>"Upload file"}
+  [1m[36mUser Load (0.6ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 10339], ["LIMIT", 1]]
+No template found for GradingController#grade_my_code, rendering head :no_content
+Completed 204 No Content in 3804ms (ActiveRecord: 0.6ms)
+
+
+Started GET "/training_sessions/2641" for 127.0.0.1 at 2018-04-30 18:34:04 -0600
+Processing by TrainingSessionsController#show as HTML
+  Parameters: {"id"=>"2641"}
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 10339], ["LIMIT", 1]]
+  [1m[36mTrainingSession Load (0.5ms)[0m  [1m[34mSELECT  "training_sessions".* FROM "training_sessions" WHERE "training_sessions"."id" = $1 LIMIT $2[0m  [["id", 2641], ["LIMIT", 1]]
+  [1m[36mRole Load (0.5ms)[0m  [1m[34mSELECT "roles".* FROM "roles" INNER JOIN "users_roles" ON "roles"."id" = "users_roles"."role_id" WHERE "users_roles"."user_id" = $1[0m  [["user_id", 10339]]
+  [1m[35m (2.0ms)[0m  [1m[34mSELECT "training_sessions"."id" FROM "training_sessions" INNER JOIN "roles" ON "roles".resource_type IN ('TrainingSession') AND
+                                    ("roles".resource_id IS NULL OR "roles".resource_id = "training_sessions"."id") WHERE ("roles".name IN ('instructor') AND "roles".resource_type IN ('TrainingSession')) AND ("roles"."id" IN (SELECT "roles"."id" FROM "roles" INNER JOIN "users_roles" ON "roles"."id" = "users_roles"."role_id" WHERE "users_roles"."user_id" = 10339 AND "roles"."name" = 'instructor') AND (("roles".resource_id = "training_sessions"."id") OR ("roles".resource_id IS NULL)))[0m
+  [1m[36mCACHE TrainingSession Load (0.0ms)[0m  [1m[34mSELECT  "training_sessions".* FROM "training_sessions" WHERE "training_sessions"."id" = $1 LIMIT $2[0m  [["id", 2641], ["LIMIT", 1]]
+  [1m[36mGeneralLedger Load (0.7ms)[0m  [1m[34mSELECT "general_ledgers".* FROM "general_ledgers" WHERE "general_ledgers"."training_session_id" = 2641[0m
+  [1m[36mHABTM_Instructors Load (0.5ms)[0m  [1m[34mSELECT "instructors".* FROM "instructors" WHERE "instructors"."training_session_id" = 2641[0m
+  [1m[36mClassLocation Load (0.6ms)[0m  [1m[34mSELECT "class_locations".* FROM "class_locations" WHERE "class_locations"."id" = 1[0m
+  [1m[36mFinancialAccount Load (0.7ms)[0m  [1m[34mSELECT "financial_accounts".* FROM "financial_accounts" WHERE "financial_accounts"."id" = 1065[0m
+  [1m[36mLedgerCategory Load (0.9ms)[0m  [1m[34mSELECT "ledger_categories".* FROM "ledger_categories" WHERE "ledger_categories"."id" = 9[0m
+  [1m[36mEnrollment Load (0.5ms)[0m  [1m[34mSELECT "enrollments".* FROM "enrollments" WHERE "enrollments"."training_session_id" = 2641[0m
+  [1m[36mSessionRating Load (0.6ms)[0m  [1m[34mSELECT "session_ratings".* FROM "session_ratings" WHERE "session_ratings"."enrollment_id" IN (3611, 6023)[0m
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IN (49, 93)[0m
+  [1m[36mEnrollment Load (0.8ms)[0m  [1m[34mSELECT  "enrollments".* FROM "enrollments" WHERE "enrollments"."user_id" = 10339 AND "enrollments"."training_session_id" = 2641 LIMIT $1[0m  [["LIMIT", 1]]
+  [1m[36mSessionRating Load (0.5ms)[0m  [1m[34mSELECT  "session_ratings".* FROM "session_ratings" WHERE "session_ratings"."user_id" = 10339 AND "session_ratings"."enrollment_id" IS NULL LIMIT $1[0m  [["LIMIT", 1]]
+  Rendering training_sessions/show.html.erb within layouts/application
+  [1m[35m (0.8ms)[0m  [1m[34mSELECT COUNT(*) FROM "enrollments" WHERE "enrollments"."training_session_id" = $1 AND "enrollments"."attended" = $2[0m  [["training_session_id", 2641], ["attended", "t"]]
+  [1m[35m (0.8ms)[0m  [1m[34mSELECT COUNT(*) FROM "enrollments" WHERE "enrollments"."training_session_id" = $1[0m  [["training_session_id", 2641]]
+  [1m[35mCACHE  (0.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "enrollments" WHERE "enrollments"."training_session_id" = $1[0m  [["training_session_id", 2641]]
+  Rendered training_sessions/_enrollments_tab.html.erb (8.7ms)
+  Rendered training_sessions/_grading_tab.html.erb (3.0ms)
+  Rendered training_sessions/_finance_tab.html.erb (3.6ms)
+  Rendered general_ledgers/_form_modal.html.erb (6.2ms)
+  [1m[36mRatingReason Load (0.8ms)[0m  [1m[34mSELECT "rating_reasons".* FROM "rating_reasons"[0m
+  Rendered session_ratings/_form_modal.html.erb (28.2ms)
+  Rendered training_sessions/show.html.erb within layouts/application (73.4ms)
+  Rendered layouts/_side_bar_menu.html.erb (52.7ms)
+Completed 200 OK in 563ms (Views: 242.7ms | ActiveRecord: 58.3ms)
+
+
+Started POST "/grading/grade_my_code" for 127.0.0.1 at 2018-04-30 18:34:09 -0600
+Processing by GradingController#grade_my_code as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"TEBYIuvGUDwUeoTvOtsGttMw0cTEpjIbTkyvyIk+5wsxObipSQ9PGvFIZPUORSQmWoDlxhLB+MHXXkyk1ZrS2Q==", "upload"=>{"datafile"=>#<ActionDispatch::Http::UploadedFile:0x007f2fc9aa1ef0 @tempfile=#<Tempfile:/tmp/RackMultipart20180430-6204-147uwbf.js>, @original_filename="usercode.js", @content_type="application/javascript", @headers="Content-Disposition: form-data; name=\"upload[datafile]\"; filename=\"usercode.js\"\r\nContent-Type: application/javascript\r\n">}, "commit"=>"Upload file"}
+  [1m[36mUser Load (2.1ms)[0m  [1m[34mSELECT  "users".* FROM "users" WHERE "users"."id" = $1 ORDER BY "users"."id" ASC LIMIT $2[0m  [["id", 10339], ["LIMIT", 1]]
+  Rendering grading/answer.html.erb within layouts/application
+  Rendered grading/answer.html.erb within layouts/application (0.7ms)
+  [1m[36mRole Load (0.5ms)[0m  [1m[34mSELECT "roles".* FROM "roles" INNER JOIN "users_roles" ON "roles"."id" = "users_roles"."role_id" WHERE "users_roles"."user_id" = $1[0m  [["user_id", 10339]]
+  Rendered layouts/_side_bar_menu.html.erb (9.5ms)
+Completed 200 OK in 4285ms (Views: 187.9ms | ActiveRecord: 2.6ms)
+
+

@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html class="st-layout ls-top-navbar-large ls-bottom-footer show-sidebar sidebar-l3" lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Nearsoft Training App ">
+  <meta name="author" content="Nearsoft">
+  <title> Training App - <%= content_for?(:title) ? yield(:title) : 'Nearsoft LMS' %> </title>
+
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+    <%= javascript_include_tag 'https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js', 'https://oss.maxcdn.com/respond/1.4.2/respond.min.js' %>
+  <![endif]-->
+
+  <%= stylesheet_link_tag 'vendor', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag 'print', media: 'print', 'data-turbolinks-track': true %>
+
+  <%= javascript_include_tag 'vendor', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<!-- BODY options, add following classes to body to change options
+
+// Header options
+1. '.header-fixed'					- Fixed Header
+
+// Brand options
+1. '.brand-minimized'       - Minimized brand (Only symbol)
+
+// Sidebar options
+1. '.sidebar-fixed'					- Fixed Sidebar
+2. '.sidebar-hidden'				- Hidden Sidebar
+3. '.sidebar-off-canvas'		- Off Canvas Sidebar
+4. '.sidebar-minimized'			- Minimized Sidebar (Only icons)
+5. '.sidebar-compact'			  - Compact Sidebar
+
+// Aside options
+1. '.aside-menu-fixed'			- Fixed Aside Menu
+2. '.aside-menu-hidden'			- Hidden Aside Menu
+3. '.aside-menu-off-canvas'	- Off Canvas Aside Menu
+
+// Breadcrumb options
+1. '.breadcrumb-fixed'			- Fixed Breadcrumb
+
+// Footer options
+1. '.footer-fixed'					- Fixed footer
+
+-->
+<body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden <%= controller_name %> <%= action_name %>">
+
+
+<header class="app-header navbar">
+  <button class="navbar-toggler mobile-sidebar-toggler d-lg-none mr-auto" type="button">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" href="/home/index"></a>
+
+  <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <ul class="nav navbar-nav d-md-down-none">
+    <li class="nav-item px-3">
+      <%= link_to 'Dashboard', home_index_path, class: 'nav-link' %>
+    </li>
+    <li class="nav-item px-3">
+      <%= link_to 'Classes & Workshops', training_sessions_path, class: 'nav-link' %>
+    </li>
+    <li class="nav-item px-3">
+      <%= link_to 'Training Requests', training_requests_path, class: 'nav-link' %>
+    </li>
+  </ul>
+  <ul class="nav navbar-nav ml-auto">
+
+<!-- TODO #306 create notifications framework
+    <li class="nav-item d-md-down-none">
+      <a class="nav-link" href="#"><i class="icon-bell"></i><span class="badge badge-pill badge-danger">5</span></a>
+    </li>
+    <li class="nav-item d-md-down-none">
+      <a class="nav-link" href="#"><i class="icon-list"></i></a>
+    </li>
+-->
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+        <img src="<%= current_user.image ? current_user.image : image_path('default-user.png') %>" class="img-avatar" alt="<%= current_user.full_name %>">
+      </a>
+      <div class="dropdown-menu dropdown-menu-right">
+
+        <div class="dropdown-header text-center">
+          <strong>Account</strong>
+        </div>
+        <!-- TODO #307 create an account summary quick menu
+
+        <a class="dropdown-item" href="#"><i class="fa fa-bell-o"></i>
+          Updates<span class="badge badge-info">42</span></a>
+        <a class="dropdown-item" href="#"><i class="fa fa-tasks"></i>
+          Training Requests<span class="badge badge-danger">2</span></a>
+        <a class="dropdown-item" href="#"><i class="fa fa-comments"></i>
+          Classes <span class="badge badge-warning">42</span></a>
+-->
+        <div class="divider"></div>
+
+        <%= link_to users_edit_password_path, class: 'dropdown-item' do %>
+            <i class="fa fa-cog"></i><span>Password</span>
+        <% end %>
+          <%= link_to users_settings_path, class: 'dropdown-item' do %>
+              <i class="fa fa-wrench"></i><span>Settings</span>
+          <% end %>
+        <%= link_to destroy_user_session_path, method: :delete, class: 'dropdown-item' do %>
+            <i class="fa fa-sign-out"></i><span>Logout</span>
+        <% end %>
+
+
+      </div>
+    </li>
+  </ul>
+<!--
+ TODO #306 create notifications framework
+
+  <button class="navbar-toggler aside-menu-toggler" type="button">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+-->
+
+</header>
+
+<div class="app-body">
+
+  <%= render 'layouts/side_bar_menu' %>
+
+  <!-- Main content -->
+  <main class="main">
+
+    <!-- Breadcrumb -->
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><%= link_to 'Home', home_index_path %></li>
+      <li class="breadcrumb-item active">
+        <strong>    <%= content_for?(:title) ? yield(:title) : 'Nearsoft LMS' %></strong>
+      </li>
+    </ol>
+
+    <div class="container-fluid">
+      <div class="animated fadeIn">
+
+
+        <!--<div class="row">-->
+        <!--<div class="col-12">-->
+        <!--<div class="card">-->
+        <!--<div class="card-header">-->
+        <!--<strong>PAge</strong>-->
+        <!--</div>-->
+        <!--<div class="card-body">-->
+
+        <!--TEST-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
+
+
+
+
+        <% flash.each do |name, msg| %>
+            <%= content_tag :div, class: "alert alert-#{ name == :error ? 'danger' : 'success' } alert-dismissable", role: 'alert' do %>
+                <button type="button" class="close" data-dismiss="alert">
+                  <span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <%= msg %>
+            <% end %>
+        <% end %>
+
+        <%= yield %>
+      </div>
+
+
+    </div>
+    <!-- /.conainer-fluid -->
+  </main>
+
+  <aside class="aside-menu">
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#timeline" role="tab"><i class="icon-list"></i></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#messages" role="tab"><i class="icon-speech"></i></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#settings" role="tab"><i class="icon-settings"></i></a>
+      </li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <div class="tab-pane active" id="timeline" role="tabpanel">
+        <div class="callout m-0 py-2 text-muted text-center bg-light text-uppercase">
+          <small><b>Today</b></small>
+        </div>
+        <hr class="transparent mx-3 my-0">
+        <div class="callout callout-warning m-0 py-3">
+          <div class="avatar float-right">
+            <img src=" <%= image_path 'avatars/7.jpg' %>" class="img-avatar" alt="admin@bootstrapmaster.com">
+          </div>
+          <div>Meeting with
+            <strong>Lucas</strong>
+          </div>
+          <small class="text-muted mr-3"><i class="icon-calendar"></i>&nbsp; 1 - 3pm</small>
+          <small class="text-muted"><i class="icon-location-pin"></i>&nbsp; Palo Alto, CA</small>
+        </div>
+        <hr class="mx-3 my-0">
+        <div class="callout callout-info m-0 py-3">
+          <div class="avatar float-right">
+            <img src=" <%= image_path 'avatars/4.jpg' %>" class="img-avatar" alt="admin@bootstrapmaster.com">
+          </div>
+          <div>Skype with
+            <strong>Megan</strong>
+          </div>
+          <small class="text-muted mr-3"><i class="icon-calendar"></i>&nbsp; 4 - 5pm</small>
+          <small class="text-muted"><i class="icon-social-skype"></i>&nbsp; On-line</small>
+        </div>
+        <hr class="transparent mx-3 my-0">
+        <div class="callout m-0 py-2 text-muted text-center bg-light text-uppercase">
+          <small><b>Tomorrow</b></small>
+        </div>
+        <hr class="transparent mx-3 my-0">
+        <div class="callout callout-danger m-0 py-3">
+          <div>New UI Project -
+            <strong>deadline</strong>
+          </div>
+          <small class="text-muted mr-3"><i class="icon-calendar"></i>&nbsp; 10 - 11pm</small>
+          <small class="text-muted"><i class="icon-home"></i>&nbsp; creativeLabs HQ</small>
+          <div class="avatars-stack mt-2">
+            <div class="avatar avatar-xs">
+              <img src=" <%= image_path 'avatars/2.jpg' %>" class="img-avatar" alt="admin@bootstrapmaster.com">
+            </div>
+            <div class="avatar avatar-xs">
+              <img src=" <%= image_path 'avatars/3.jpg' %>" class="img-avatar" alt="admin@bootstrapmaster.com">
+            </div>
+            <div class="avatar avatar-xs">
+              <img src=" <%= image_path 'avatars/4.jpg' %>" class="img-avatar" alt="admin@bootstrapmaster.com">
+            </div>
+            <div class="avatar avatar-xs">
+              <img src=" <%= image_path 'avatars/5.jpg' %>" class="img-avatar" alt="admin@bootstrapmaster.com">
+            </div>
+            <div class="avatar avatar-xs">
+              <img src=" <%= image_path 'avatars/6.jpg' %>" class="img-avatar" alt="admin@bootstrapmaster.com">
+            </div>
+          </div>
+        </div>
+        <hr class="mx-3 my-0">
+        <div class="callout callout-success m-0 py-3">
+          <div>
+            <strong>#10 Startups.Garden</strong> Meetup
+          </div>
+          <small class="text-muted mr-3"><i class="icon-calendar"></i>&nbsp; 1 - 3pm</small>
+          <small class="text-muted"><i class="icon-location-pin"></i>&nbsp; Palo Alto, CA</small>
+        </div>
+        <hr class="mx-3 my-0">
+        <div class="callout callout-primary m-0 py-3">
+          <div>
+            <strong>Team meeting</strong>
+          </div>
+          <small class="text-muted mr-3"><i class="icon-calendar"></i>&nbsp; 4 - 6pm</small>
+          <small class="text-muted"><i class="icon-home"></i>&nbsp; creativeLabs HQ</small>
+          <div class="avatars-stack mt-2">
+            <div class="avatar avatar-xs">
+              <img src=" <%= image_path 'avatars/2.jpg' %>" class="img-avatar" alt="admin@bootstrapmaster.com">
+            </div>
+            <div class="avatar avatar-xs">
+              <img src=" <%= image_path 'avatars/3.jpg' %>" class="img-avatar" alt="admin@bootstrapmaster.com">
+            </div>
+            <div class="avatar avatar-xs">
+              <img src=" <%= image_path 'avatars/4.jpg' %>" class="img-avatar" alt="admin@bootstrapmaster.com">
+            </div>
+            <div class="avatar avatar-xs">
+              <img src=" <%= image_path 'avatars/5.jpg' %>" class="img-avatar" alt="admin@bootstrapmaster.com">
+            </div>
+            <div class="avatar avatar-xs">
+              <img src=" <%= image_path 'avatars/6.jpg' %>" class="img-avatar" alt="admin@bootstrapmaster.com">
+            </div>
+            <div class="avatar avatar-xs">
+              <img src=" <%= image_path 'avatars/7.jpg' %>" class="img-avatar" alt="admin@bootstrapmaster.com">
+            </div>
+            <div class="avatar avatar-xs">
+              <img src=" <%= image_path 'avatars/8.jpg' %>" class="img-avatar" alt="admin@bootstrapmaster.com">
+            </div>
+          </div>
+        </div>
+        <hr class="mx-3 my-0">
+      </div>
+      <div class="tab-pane p-3" id="messages" role="tabpanel">
+        <div class="message">
+          <div class="py-3 pb-5 mr-3 float-left">
+            <div class="avatar">
+              <img src=" <%= image_path 'avatars/7.jpg' %>" class="img-avatar" alt="admin@bootstrapmaster.com">
+              <span class="avatar-status badge-success"></span>
+            </div>
+          </div>
+          <div>
+            <small class="text-muted">Lukasz Holeczek</small>
+            <small class="text-muted float-right mt-1">1:52 PM</small>
+          </div>
+          <div class="text-truncate font-weight-bold">Lorem ipsum dolor sit amet</div>
+          <small class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+            incididunt...
+          </small>
+        </div>
+        <hr>
+        <div class="message">
+          <div class="py-3 pb-5 mr-3 float-left">
+            <div class="avatar">
+              <img src=" <%= image_path 'avatars/7.jpg' %>" class="img-avatar" alt="admin@bootstrapmaster.com">
+              <span class="avatar-status badge-success"></span>
+            </div>
+          </div>
+          <div>
+            <small class="text-muted">Lukasz Holeczek</small>
+            <small class="text-muted float-right mt-1">1:52 PM</small>
+          </div>
+          <div class="text-truncate font-weight-bold">Lorem ipsum dolor sit amet</div>
+          <small class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+            incididunt...
+          </small>
+        </div>
+        <hr>
+        <div class="message">
+          <div class="py-3 pb-5 mr-3 float-left">
+            <div class="avatar">
+              <img src=" <%= image_path 'avatars/7.jpg' %>" class="img-avatar" alt="admin@bootstrapmaster.com">
+              <span class="avatar-status badge-success"></span>
+            </div>
+          </div>
+          <div>
+            <small class="text-muted">Lukasz Holeczek</small>
+            <small class="text-muted float-right mt-1">1:52 PM</small>
+          </div>
+          <div class="text-truncate font-weight-bold">Lorem ipsum dolor sit amet</div>
+          <small class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+            incididunt...
+          </small>
+        </div>
+        <hr>
+        <div class="message">
+          <div class="py-3 pb-5 mr-3 float-left">
+            <div class="avatar">
+              <img src=" <%= image_path 'avatars/7.jpg' %>" class="img-avatar" alt="admin@bootstrapmaster.com">
+              <span class="avatar-status badge-success"></span>
+            </div>
+          </div>
+          <div>
+            <small class="text-muted">Lukasz Holeczek</small>
+            <small class="text-muted float-right mt-1">1:52 PM</small>
+          </div>
+          <div class="text-truncate font-weight-bold">Lorem ipsum dolor sit amet</div>
+          <small class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+            incididunt...
+          </small>
+        </div>
+        <hr>
+        <div class="message">
+          <div class="py-3 pb-5 mr-3 float-left">
+            <div class="avatar">
+              <img src=" <%= image_path 'avatars/7.jpg' %>" class="img-avatar" alt="admin@bootstrapmaster.com">
+              <span class="avatar-status badge-success"></span>
+            </div>
+          </div>
+          <div>
+            <small class="text-muted">Lukasz Holeczek</small>
+            <small class="text-muted float-right mt-1">1:52 PM</small>
+          </div>
+          <div class="text-truncate font-weight-bold">Lorem ipsum dolor sit amet</div>
+          <small class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+            incididunt...
+          </small>
+        </div>
+      </div>
+      <div class="tab-pane p-3" id="settings" role="tabpanel">
+        <h6>Settings</h6>
+
+        <div class="aside-options">
+          <div class="clearfix mt-4">
+            <small><b>Option 1</b></small>
+            <label class="switch switch-text switch-pill switch-success switch-sm float-right">
+              <input type="checkbox" class="switch-input" checked="">
+              <span class="switch-label" data-on="On" data-off="Off"></span>
+              <span class="switch-handle"></span>
+            </label>
+          </div>
+          <div>
+            <small class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+              incididunt ut labore et dolore magna aliqua.
+            </small>
+          </div>
+        </div>
+
+        <div class="aside-options">
+          <div class="clearfix mt-3">
+            <small><b>Option 2</b></small>
+            <label class="switch switch-text switch-pill switch-success switch-sm float-right">
+              <input type="checkbox" class="switch-input">
+              <span class="switch-label" data-on="On" data-off="Off"></span>
+              <span class="switch-handle"></span>
+            </label>
+          </div>
+          <div>
+            <small class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+              incididunt ut labore et dolore magna aliqua.
+            </small>
+          </div>
+        </div>
+
+        <div class="aside-options">
+          <div class="clearfix mt-3">
+            <small><b>Option 3</b></small>
+            <label class="switch switch-text switch-pill switch-success switch-sm float-right">
+              <input type="checkbox" class="switch-input">
+              <span class="switch-label" data-on="On" data-off="Off"></span>
+              <span class="switch-handle"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="aside-options">
+          <div class="clearfix mt-3">
+            <small><b>Option 4</b></small>
+            <label class="switch switch-text switch-pill switch-success switch-sm float-right">
+              <input type="checkbox" class="switch-input" checked="">
+              <span class="switch-label" data-on="On" data-off="Off"></span>
+              <span class="switch-handle"></span>
+            </label>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </aside>
+
+</div>
+
+<footer class="app-footer">
+  <span><a href="http://coreui.io">CoreUI</a> Â© 2017 creativeLabs.</span>
+  <span class="ml-auto">Powered by <a href="http://coreui.io">CoreUI</a></span>
+</footer>
+
+
+<%= javascript_include_tag 'application' %>
+</body>
+</html>

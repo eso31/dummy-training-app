@@ -1,0 +1,52 @@
+<% title 'Assignment Queues for Training Request' %>
+
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h5><strong><%= yield(:title) %></strong></h5>
+      </div>
+      <div class="card-body">
+
+        <div class="row">
+          <div class="col-12">
+            <%= form_tag(assignment_queues_path, method: :get, class: 'form-inline pull-left') do %>
+
+                <div class="form-group row">
+                  <div class="col-md-12">
+                    <div class="input-group">
+                      <%= text_field_tag :q, params[:q], class: 'form-control' %>
+                      <span class="input-group-btn">
+                      <%= button_tag nil, assignment_order: nil, class: 'btn btn-primary' do %>
+                        <i class="fa fa-search"></i> Search
+                      <% end %>
+                    </span>
+                    </div>
+                  </div>
+                </div>
+
+            <% end %>
+
+            <div class="pull-right">
+              <% if current_user.has_cached_role?(:admin) || current_user.has_cached_role?(:training_admin) %>
+                  <%= link_to assignment_round_path, method: :post, class: 'btn btn-primary' do %>
+                    <span class="fa fa-refresh"></span>
+                    New Assignment Round
+                  <% end %>
+
+                  <%= link_to new_assignment_queue_path, class: 'btn btn-primary' do %>
+                    <span class="fa fa-plus"></span>
+                    New Assignment Queue
+                  <% end %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        <br>
+
+        <%= render 'assignment_queues/assignment_queue_table' %>
+      </div>
+    </div>
+  </div>
+</div>

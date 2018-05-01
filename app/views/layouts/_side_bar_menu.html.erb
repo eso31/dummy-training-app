@@ -1,0 +1,53 @@
+<div class="sidebar">
+  <nav class="sidebar-nav">
+    <ul class="nav">
+      <%= sidebar_item 'Dashboard', home_index_path, icon_class: 'icon-grid' %>
+      <li class="nav-title">
+        Classes & Workshops
+      </li>
+
+      <%= sidebar_item 'Training Sessions', training_sessions_path, icon_class: 'icon-vector' %>
+      <% if user_signed_in? && (current_user.has_cached_role?(:admin) || current_user.has_cached_role?(:workshops_admin)) %>
+          <%= sidebar_item 'Course', courses_path, icon_class: 'icon-graduation' %>
+          <%= sidebar_item 'Series', series_index_path, icon_class: 'icon-badge' %>
+          <%= sidebar_item 'Session Ratings', session_ratings_path %>
+      <% end %>
+      <% if user_signed_in? && current_user.has_cached_role?(:admin) %>
+          <%= sidebar_item 'Class Locations', class_locations_path, icon_class: 'icon-location-pin' %>
+          <%= sidebar_item 'Rating Reasons', rating_reasons_path, icon_class: 'icon-user-following' %>
+      <% end %>
+      <li class="divider"></li>
+      <li class="nav-title"> Requests</li>
+      <% if user_signed_in? && (current_user.has_cached_role?(:admin) || current_user.has_cached_role?(:training_admin)) %>
+        <%= sidebar_item 'Assignment Queues', assignment_queues_path, icon_class: 'icon-loop' %>
+      <% end %>
+      <%= sidebar_item 'Trainings', training_requests_path, icon_class: 'icon-envelope-letter' %>
+
+      <% if user_signed_in? && (current_user.has_cached_role?(:financial_admin) || current_user.has_cached_role?(:admin)) %>
+
+          <li class="divider"></li>
+          <li class="nav-title"> Finance</li>
+
+          <%= sidebar_item 'Financial Accounts', financial_accounts_path, icon_class: 'icon-calculator' %>
+          <%= sidebar_item 'General Ledger', general_ledgers_path, icon_class: 'icon-book-open' %>
+          <%= sidebar_item 'Ledger Categories', ledger_categories_path, icon_class: 'icon-wallet' %>
+      <% end %>
+
+      <% if user_signed_in? && current_user.has_cached_role?(:admin) %>
+
+          <li class="divider"></li>
+          <li class="nav-title"> Admin</li>
+          <%= sidebar_item 'Users', users_path, icon_class: 'icon-people' %>
+          <%= sidebar_item 'Audits', audits_path, icon_class: 'icon-chart' %>
+      <% end %>
+
+      <li class="nav-item mt-auto">
+        <%= link_to destroy_user_session_path, method: :delete, class: 'nav-link nav-link-success' do %>
+            <i class="fa fa-sign-out"></i><span>Logout</span>
+        <% end %>
+      </li>
+
+    </ul>
+  </nav>
+  <button class="sidebar-minimizer brand-minimizer" type="button"></button>
+</div>

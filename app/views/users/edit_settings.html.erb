@@ -1,0 +1,60 @@
+<% title "User settings for: #{current_user.full_name}" %>
+
+<div class="row">
+  <div class="container-fluid">
+    <div class="pull-right">
+
+      <%= link_to :back, class: 'btn btn-default' do %>
+          <span class="glyphicon glyphicon-list-alt"></span>
+          Back
+      <% end %>
+
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h5><strong><%= yield(:title) %></strong></h5>
+      </div>
+      <div class="card-body">
+
+        <div class="page-section">
+          <div class="row">
+            <div class="col-md-10 col-lg-8 col-md-offset-1 col-lg-offset-2">
+              <div class="panel panel-default">
+                <div class="panel-body">
+                  <%= form_for current_user, url: user_update_settings_path, html: {class: 'form-horizontal', role: 'form'} do |f| %>
+                      <% if current_user.errors.any? %>
+                          <div class="alert alert-danger alert-dismissable" role="alert">
+                            <button type="button" class="close" data-dismiss="alert">
+                              <span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            <h4><%= pluralize(current_user.errors.count, 'error') %> prohibited this training_request from being
+                              saved:</h4>
+
+                            <ul>
+                              <% current_user.errors.full_messages.each do |msg| %>
+                                  <li><%= msg %></li>
+                              <% end %>
+                            </ul>
+                          </div>
+                      <% end %>
+
+                      <%= f.text_field :first_name, placeholder: 'Your first name' %>
+                      <%= f.text_field :last_name %>
+                      <%= f.check_box :vegetarian %>
+                      <%= f.check_box :notification %>
+
+                      <%= f.submit class: 'btn btn-primary' %>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

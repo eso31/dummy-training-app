@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "training-app-184016",
+  "private_key_id": "6f3d7342e1271835baadac1a4b79de8805bb6f0f",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDCFV6/mMgVESA/\nrB3vl5mXXAwnkHJjA5GF7635nw6naz4PhovsgT7TtKQRFar9kchgBVJ6m28DnB1W\nGIuFJ5L927q/vwclABkaWGOwuAJk1A7l1CVmdHFnZw+Yh7T8wL7+ZxpK2xaGmO0/\n2EF3vP3F4y1dviZicav9uq0ZGbkjoZRrhHuedoR0fF6yS1tBLwKQXfse044HRfRL\njzSinq79gFYPuuqHxU/lPlj19mDWH74stgsFKMSeseApecK3j7zc/W0nopqtQaZt\njCHqtuS+gTxJWoWDvh+yIUZqCKEOvJn7UaAiZcl2WbyTsS+1RF091RslnVsGG1F2\nBm+/AuaPAgMBAAECggEAMm9IOGTU9biGF1W8T8Mm/BDE7dEZEIbgXZxLqvb84V+6\neGFf4h0x/OTPz8rALPWhyuYHKWpT3m3Gp9VoCDmg9owPiv1yt1g/rbtzaHxgzt/W\nYT4QW//9aj/7awk07IuP9l9Hk1U8lMyPtowVcy6vCan/44Diy6k7ZwuIKOIo3MuP\n/nGSXZuHNVSaFciXHPdSUYHiNULW/2JgXZLeayISr//kVQ+iSmu46RPYI+qYOg24\nrrzMaQcTLIMhXQrdizyb19V0cuxPYYpobv3yxIPpgtoYmSCMtZ07Ca+YWUCqKPir\nGKLrAteFeceZLscw19Skg6b8QNziTXalqvUuoYRz0QKBgQDi/DU2AE0qj3SezKJL\nHYnz8NRnq1t7GKZmnzG4ba+cv8nyDRHadZ5sR1Z5q6yZg5wD9zsnY9SRdeoiLdm8\nE1lCoBo8iuhVAP1gCSKQRHmIMcHD4UExt1Jmbm3Y7ZoeiM2kHPC+0EgSJOP+P5tB\nVG0vKO5lWKTAAxqdLEpqK13TfwKBgQDa5H8747csBQGBUE8L3KCzfNVVUn0JwHZa\n2AWMiAXHkblsD4c2mMMQq5iPll5PWdIhRoLr5nuxaRjTaIFBIun8mE6FRgFFQwRO\nqzTokGkmH3y+o748nAL40Biuhg8zoksqMKHtpJpXJbstGZ0YhQ9dKC/k57+QjUYm\nQgpYC8c08QKBgGwfW3F3v0pQv2qNa5mAXqBWzbb8Rz1hxpIHrvV9OjPen+GvHBwF\n/wrxCF44yqTtrjmtYP4oba9EjdzuHlOam+BCx3yjZnxnVkqSz2YNWB7qJLSb7iQy\ngQvN+oFk3Q9Cd0J/jqY2LL6H2BraTahXARN/2d9o1EGquNi5qlDci3sdAoGARo3I\nBQHNFL84UPoVwHkIw1HFYY8JBo+mlnlysG1Xj5AE+DO5HXv3w/PLZNzO4TzOYjNc\nF7VewTxi6CGTJ++dA/IDvSlnV2/Wf5TnpN6HReZ4Sup0cwzGWHSawAYt+DKjj6HF\nT9fyd4yN3GeZH0IkRZ6icWHReUJQDhzTQLXrK8ECgYB6zvvPK/MswAOdgA4JeMUY\nMXHGUBCjJww2NCJ1T7vYay48zedBPG6zy097/MUYGwKPSg8YnbkfW07nPouXVnwR\njYVdxcSvWfjMi10VFDfmvLKqQQWTmkWoq8e0mVmcpdSwt/Zn7dRFs4LicPFRDg2I\na7QKmmXufHqS2dK8WYJZ1A==\n-----END PRIVATE KEY-----\n",
+  "client_email": "calendar@training-app-184016.iam.gserviceaccount.com",
+  "client_id": "102164100886191292360",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/calendar%40training-app-184016.iam.gserviceaccount.com"
+}

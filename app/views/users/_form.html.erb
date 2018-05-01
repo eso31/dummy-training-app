@@ -1,0 +1,53 @@
+<div class="page-section">
+  <div class="row">
+    <div class="col-md-10 col-lg-12 col-md-offset-1 col-lg-offset-2">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <%= form_for @user, html: {class: 'form-horizontal', role: 'form'} do |f| %>
+              <% if @user.errors.any? %>
+                  <div class="alert alert-danger alert-dismissable" role="alert">
+                    <button type="button" class="close" data-dismiss="alert">
+                      <span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4><%= pluralize(@user.errors.count, 'error') %> prohibited this training_request from being
+                      saved:</h4>
+
+                    <ul>
+                      <% @user.errors.full_messages.each do |msg| %>
+                          <li><%= msg %></li>
+                      <% end %>
+                    </ul>
+                  </div>
+              <% end %>
+
+              <%= f.text_field :first_name, placeholder: 'Your first name' %>
+              <%= f.text_field :last_name %>
+              <%= f.email_field :email, placeholder: 'Enter email' %>
+              <%= f.check_box :vegetarian %>
+              <%= f.check_box :notification %>
+              <%= f.password_field :password %>
+              <%= f.password_field :password_confirmation %>
+
+            <div class="form-group">
+                <%= f.label 'Roles', class: 'col-sm-12 control-label', for: 'user_role_ids'%>
+                <div class="col-sm-12">
+                  <%= collection_check_boxes(
+                      :user,
+                      :role_ids,
+                      Role.where.not(name: %w(instructor user)),
+                      :id,
+                      :name,
+                      {}
+                  ) do |b|%>
+                  <%= b.label {b.check_box + b.text.capitalize.sub('_',' ')} %>
+                    </br>
+                  <% end %>
+
+                </div>
+              </div>
+              <%= f.submit class: 'btn btn-primary' %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

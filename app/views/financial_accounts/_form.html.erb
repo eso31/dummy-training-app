@@ -1,0 +1,31 @@
+<%= form_for(@financial_account, html: {class: 'form-horizontal', role: 'form'}) do |f| %>
+    <% if @financial_account.errors.any? %>
+        <div class="alert alert-danger alert-dismissable" role="alert">
+          <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <h4><%= pluralize(@financial_account.errors.count, 'error') %> prohibited this financial_account from being
+            saved:</h4>
+
+          <ul>
+            <% @financial_account.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+    <% end %>
+
+    <%= f.text_field :name, class: 'form-control' %>
+    <div class="form-group">
+      <%= f.label :status, class: 'col-sm-2 control-label' %>
+      <div class="col-sm-10">
+        <%= f.collection_select(:financial_account, :status, FinancialAccount.statuses, :first , :last) %>
+      </div>
+    </div>
+    <%= f.autocomplete :parent_account %>
+
+    <div class="form-group">
+      <div class="col-sm-10">
+        <%= f.submit class: 'btn btn-primary' %>
+      </div>
+    </div>
+<% end %>
